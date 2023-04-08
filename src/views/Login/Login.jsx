@@ -24,9 +24,8 @@ const Login = () => {
     validateOnChange: false,
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      loginService({ email: values.email, password: values.password }) // llama a /login del back pasandole el email y la password
+      loginService({ email: values.email, password: values.password })
         .then(response => {
-          // Usar el login del contexto
           login(response.accessToken);
         })
         .catch(err => {
@@ -38,7 +37,7 @@ const Login = () => {
           setSubmitting(false)
         })
 
-      // Peticion al back para que me devuelva el JWT
+
     }
   });
 
@@ -72,7 +71,7 @@ const Login = () => {
           />
         </FormControl>
 
-        <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+        <button className="btn btn-secondary" type="submit" disabled={isSubmitting}>
           {isSubmitting
             ? 'Submitting...'
             : 'Submit'
