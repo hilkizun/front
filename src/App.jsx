@@ -6,6 +6,7 @@ import AuthContext from "./contexts/AuthContext"
 import Login from "./views/Login/Login"
 import Signup from "./views/Signup/Signup"
 import Profile from "./views/Profile/Profile"
+import Create from "./views/Product/Create"
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
               <Profile />
             </ProtectedRoute>
           } />
+          <Route path="create" element={<ProtectedRoute>
+              <Create />
+            </ProtectedRoute>} />
         </Routes>
       </div>
     </div>

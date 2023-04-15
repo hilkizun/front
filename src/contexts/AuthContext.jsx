@@ -21,20 +21,6 @@ export const AuthProvider = ({ children }) => {
       })
   }, [])
 
-  // Version si queremos usar promesas
-  // const getCurrentUserPromise = useCallback(() => new Promise((resolve, reject) => {
-  //   getCurrentUserService()
-  //     .then(user => {
-  //       setCurrentUser(user)
-  //       setIsAuthLoaded(true)// Para cuando necesite redirigir despues de un login
-  //       resolve()
-  //     })
-  //     .catch(err => {
-  //       console.error(err)
-  //       reject()
-  //     })
-  // }), [])
-
   const login = useCallback((token) => {
     const navigateToProfile = () => {
       navigate('/profile')
