@@ -9,15 +9,15 @@ export default AuthContext;
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate()
 
-  const [currentUser, setCurrentUser] = useState(null); // El usuario en sesión
-  const [isAuthLoaded, setIsAuthLoaded] = useState(false); // Para saber si ya tengo usuario o al menos lo he comprobado
+  const [currentUser, setCurrentUser] = useState(null); 
+  const [isAuthLoaded, setIsAuthLoaded] = useState(false); 
 
   const getCurrentUser = useCallback((callback) => {
-    getCurrentUserService() // llama a /users/me para que con el token, me traiga a mi usuario, se lo enchufe al contexto y toda mi aplicación sepa quien es
+    getCurrentUserService() 
       .then(user => {
         setCurrentUser(user)
         setIsAuthLoaded(true)
-        callback && callback() // Para cuando necesite redirigir despues de un login
+        callback && callback() 
       })
   }, [])
 
@@ -25,14 +25,14 @@ export const AuthProvider = ({ children }) => {
     const navigateToProfile = () => {
       navigate('/profile')
     }
-    // Lo guaaardo
+
     setAccessToken(token);
     getCurrentUser(navigateToProfile)
 
   }, [getCurrentUser])
 
 
-  useEffect(() => { // UseEffect se ejecuta al menos una vez despues del primer render
+  useEffect(() => { 
     if (getAccessToken()) {
       getCurrentUser()
     } else {
@@ -42,9 +42,9 @@ export const AuthProvider = ({ children }) => {
 
   const value = useMemo(() => {
     return {
-      currentUser, // Usuario que está en sesión
-      isAuthLoaded, // Si ya intenté saber si hay usuario en sesión
-      login // login
+      currentUser, 
+      isAuthLoaded,
+      login
     }
   }, [currentUser, isAuthLoaded, login])
 

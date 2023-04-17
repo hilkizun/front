@@ -6,12 +6,7 @@ export const signupSchema = Yup.object({
     .required('Required'),
   description: Yup
     .string('Last name err'),
-  email: Yup
-    .string('Email err')
-    .email('Invalid email')
+  price: Yup
+    .string('Price err')
     .required('Required'),
-  password: Yup
-    .string('Password err')
-    .min(8, 'Length invalid')
-    .required('Required')
 });
