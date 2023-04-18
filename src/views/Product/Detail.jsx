@@ -72,11 +72,14 @@ const Detail = ({ type }) => {
       setLiked(true);
       setLikesCount(likesCount + 1);
     } else {
-      await unLikeProduct(id, type);
-      setLiked(false);
-      setLikesCount(likesCount - 1);
-      alert('Ya no te gusta');
+      const result = window.confirm('¿Estás seguro de que ya no te gusta?');
+      if (result) {
+        await unLikeProduct(id, type);
+        setLiked(false);
+        setLikesCount(likesCount - 1);
+      }
     }
+    
   };
 
   if (!itemData) {
