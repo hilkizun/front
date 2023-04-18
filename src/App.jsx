@@ -7,7 +7,7 @@ import Login from "./views/Login/Login"
 import Signup from "./views/Signup/Signup"
 import Profile from "./views/Profile/Profile"
 import Create from "./views/Product/Create"
-import ProductDetail from "./views/Product/ProductDetail"
+import Detail from "./views/Product/Detail"
 
 function App() {
   return (
@@ -26,8 +26,8 @@ function App() {
           <Route path="create" element={<ProtectedRoute>
               <Create />
             </ProtectedRoute>} />
-          <Route path="/products/:id" element={<ProductDetail type="products" />} />
-
+          <Route path="/products/:id" element={<Detail type="product" />} />
+          <Route path="/auction/:id" element={<Detail type="auction" />} />
         </Routes>
         
       </div>

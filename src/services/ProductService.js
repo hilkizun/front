@@ -23,15 +23,19 @@ export const getAuction = async (id) => {
     return response;
   };
 
-export const likeProduct = async (id) => {
-  const response = await authenticatedHttp.post(`/${id}/like`);
+export const likeProduct = async (id, type) => {
+  const response = await authenticatedHttp.post(`/${id}/like?likeType=${type}`);
   return response;
 };
 
-export const unLikeProduct = async (id) => {
-    const response = await authenticatedHttp.post(`/${id}/unlike`);
-    return response;
-  };
+export const unLikeProduct = async (id, type) => {
+  const response = await authenticatedHttp.delete(`/${id}/unlike?likeType=${type}`);
+  return response;
+};
 
+export const fetchUserLikes = async () => {
+  const response = await authenticatedHttp.get('/liked');
+  return response;
+};
 
 

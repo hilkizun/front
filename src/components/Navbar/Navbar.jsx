@@ -42,9 +42,19 @@ const Navbar = () => {
               </>
             )}
             {isAuthLoaded && currentUser && (
+              <>
+              <li className="nav-item">
+              <NavLink
+                className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                to="/create"
+              >
+                Create
+              </NavLink>
+            </li>
               <li className="nav-item">
                 <button className="nav-link btn" onClick={handleLogout}>Logout</button>
               </li>
+              </>
             )}
           </ul>
         </div>
