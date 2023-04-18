@@ -38,4 +38,12 @@ export const fetchUserLikes = async () => {
   return response;
 };
 
+export const getAllProducts = async () => {
+  const response = await unauthenticatedHttp.get('/products');
+  return response;
+};
 
+export const getAllAuctions = async () => {
+  const response = await unauthenticatedHttp.get('/auction');
+  return response;
+};

@@ -5,6 +5,9 @@ import { useParams } from 'react-router-dom';
 import { getProduct, getAuction, likeProduct, unLikeProduct, fetchUserLikes } from '../../services/ProductService';
 import AuthContext from '../../contexts/AuthContext';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import 'react-image-gallery/styles/css/image-gallery.css';
+import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/dateUtils';
+
 
 const Detail = ({ type }) => {
   const { id } = useParams();
@@ -47,13 +50,7 @@ const Detail = ({ type }) => {
   useEffect(() => {
     if (type === 'auction' && itemData && itemData.endDate) {
       const updateTimeLeft = () => {
-        const currentTime = new Date();
-        const endTime = new Date(itemData.endDate);
-        const diff = endTime - currentTime;
-        const days = Math.floor(diff / 1000 / 60 / 60 / 24);
-        const hours = Math.floor((diff / 1000 / 60 / 60) % 24);
-        const minutes = Math.floor((diff / 1000 / 60) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
+        const { days, hours, minutes, seconds } = timeRemaining(itemData.endDate);
         setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
       };
       updateTimeLeft();
@@ -105,12 +102,13 @@ const Detail = ({ type }) => {
     </div>
   )
 }
-      {type === 'product' ? (
+{type === 'product' ? (
         <button>Buy now (${itemData.price})</button>
       ) : (
         <>
-          <p>Time left: {timeLeft}</p>
-          <button>Bid now (${itemData.currentPrice})</button>
+          <p>Quedan: {timeLeft}</p>
+          <p>Finaliza: {formattedEndDate(itemData.endDate)}</p>
+          <button>Puja actual (${itemData.currentPrice})</button>
         </>
       )}
     </div>
