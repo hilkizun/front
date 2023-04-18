@@ -7,7 +7,6 @@ import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/date
 
 const Card = ({ item, type }) => {
   const routeType = type === 'product' ? '/products' : '/auction';
-
   const [remainingTime, setRemainingTime] = useState(null);
 
   useEffect(() => {
@@ -26,16 +25,13 @@ const Card = ({ item, type }) => {
   }, [item.endDate, type]);
 
   return (
-    <div className={`card ${type}`}>
-      <Link to={`${routeType}/${item._id}`} className="card-link">
+    <Link to={`${routeType}/${item._id}`} className="card-link">
+      <div className={`card ${type}`}>
         <img src={item.image[0]} alt={item.name} className="card-img" />
-      </Link>
-      <div className="card-info">
-        <Link to={`${routeType}/${item._id}`} className="card-link">
+        <div className="card-info">
           <h3 className="card-title clickable">{item.name}</h3>
-        </Link>
-        <div className="card-price-likes">
-          <Link to={`${routeType}/${item._id}`} className="card-link">
+          <p className="card-description">{item.description.substring(0, 50)}</p>
+          <div className="card-price-likes">
             <p className="card-price clickable">
               {type === 'product'
                 ? `¡Cómpralo ya! ${item.price}€`
@@ -43,19 +39,20 @@ const Card = ({ item, type }) => {
                 ? `Puja actual: ${item.currentPrice}€ - ${remainingTime.days}d ${remainingTime.hours}h ${remainingTime.minutes}m ${remainingTime.seconds}s`
                 : `Subasta finalizada - Puja final: ${item.currentPrice}€`}
             </p>
-          </Link>
-          <div className={`card-likes ${item.likesCount > 0 ? 'liked' : ''}`}>
-            {item.likesCount > 0 ? <FaHeart /> : <FaRegHeart />}
-            <span>{item.likesCount}</span>
+            <div className={`card-likes ${item.likesCount > 0 ? 'liked' : ''}`}>
+              {item.likesCount > 0 ? <FaHeart /> : <FaRegHeart />}
+              <span>{item.likesCount}</span>
+            </div>
           </div>
+          {type === 'auction' && (
+            <p className="card-auction-end">
+              {`Finaliza: ${formattedEndDate(item.endDate)}`}
+            </p>
+          )}
         </div>
-        {type === 'auction' && (
-          <p className="card-auction-end">
-            {`Finaliza: ${formattedEndDate(item.endDate)}`}
-          </p>
-        )}
       </div>
-    </div>
+    </Link>
+
   );
 };
 
