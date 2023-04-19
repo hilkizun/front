@@ -14,7 +14,20 @@ const Create = () => {
     price: '',
     type: '',
     initialPrice: 0,
+    category: '',
   });
+
+  const categoryEnum = [
+    { key: "amigurumis", value: "Amigurumi" },
+    { key: "complementos", value: "Complemento" },
+    { key: "jerseys", value: "Jersey / Cazadora" },
+    { key: "camisetas", value: "Camiseta" },
+    { key: "gorros", value: "Gorro / Sombrero" },
+    { key: "calcetines", value: "Calcetines" },
+    { key: "manoplas", value: "Manoplas / Mitones" },
+    { key: "chales", value: "Chal" },
+    { key: "bastidores", value: "Bastidor" },
+  ];  
 
   const [productType, setProductType] = useState('');
 
@@ -96,6 +109,26 @@ const Create = () => {
             </FormControl>
 
             <FormControl
+              text="Category"
+              htmlFor="category"
+            >
+              <select
+                id="category"
+                name="category"
+                value={values.category}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Select a category</option>
+                {categoryEnum.map((category) => (
+                  <option key={category.key} value={category.value}>
+                    {category.key}
+                  </option>
+                ))}
+              </select>
+            </FormControl>
+
+            <FormControl
               text="Description"
               htmlFor="description"
             >
@@ -150,6 +183,26 @@ const Create = () => {
                 onChange={handleInputChange}
                 placeholder="Enter the name of the auction"
               />
+            </FormControl>
+
+            <FormControl
+              text="Category"
+              htmlFor="category"
+            >
+              <select
+                id="category"
+                name="category"
+                value={values.category}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Select a category</option>
+                {categoryEnum.map((category) => (
+                  <option key={category.key} value={category.value}>
+                    {category.key}
+                  </option>
+                ))}
+              </select>
             </FormControl>
 
             <FormControl

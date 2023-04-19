@@ -7,6 +7,10 @@ import AuthContext from '../../contexts/AuthContext';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/dateUtils';
+import { createProductPurchase } from '../../services/ProductPurchaseService';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Detail = ({ type }) => {
   const { id } = useParams();
@@ -15,6 +19,7 @@ const Detail = ({ type }) => {
   const [liked, setLiked] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     let response;
@@ -40,6 +45,8 @@ const Detail = ({ type }) => {
       }
     }
   };
+
+  
 
   useEffect(() => {
     fetchData();
@@ -87,6 +94,24 @@ const Detail = ({ type }) => {
   }
 
   const images = itemData.image.map(img => ({ original: img, thumbnail: img }));
+  const handleProductPurchase = async () => {
+    if (!currentUser) {
+      alert('Necesitas estar logueado para comprar. Por favor, inicia sesión.');
+      return;
+    }
+  
+    try {
+      const purchaseData = {
+        productId: id,
+        userId: currentUser._id,
+      };
+
+      const productPurchase = await createProductPurchase(purchaseData);
+      navigate(`/purchase/${productPurchase._id}`);
+    } catch (error) {
+      alert('Ocurrió un error al realizar la compra. Por favor, inténtalo de nuevo.');
+    }
+    }
 
   return (
     <div>
@@ -107,7 +132,7 @@ const Detail = ({ type }) => {
   )
 }
 {type === 'product' ? (
-        <button>Buy now (${itemData.price})</button>
+        <button onClick={handleProductPurchase}>Buy now (${itemData.price})</button>
       ) : (
         <>
           {remainingTime ? (

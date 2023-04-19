@@ -9,6 +9,7 @@ import Profile from "./views/Profile/Profile"
 import Create from "./views/Product/Create"
 import Detail from "./views/Product/Detail"
 import AllProducts from "./views/Product/AllProducts"
+import AddressPurchaseForm from "./views/Purchase/AddressPurchaseForm"
 
 function App() {
   return (
@@ -19,13 +20,14 @@ function App() {
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="profile" element={
-            <ProtectedRoute>
+          <Route path="profile" element={<ProtectedRoute>
               <Profile />
-            </ProtectedRoute>
-          } />
+            </ProtectedRoute>} />
           <Route path="create" element={<ProtectedRoute>
               <Create />
+            </ProtectedRoute>} />
+          <Route path="/purchase/:purchaseId" element={<ProtectedRoute>
+              <AddressPurchaseForm />
             </ProtectedRoute>} />
           <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:id" element={<Detail type="product" />} />
