@@ -47,3 +47,13 @@ export const getAllAuctions = async () => {
   const response = await unauthenticatedHttp.get('/auction');
   return response;
 };
+
+export const placeBid = async (auctionId, bidAmount) => {
+  const response = await authenticatedHttp.post(`/${auctionId}/bid`, { bidAmount });
+  return response;
+};
+
+export const getHighestBid = async (auctionId) => {
+  const response = await unauthenticatedHttp.get(`/auction/${auctionId}/highest-bid`);
+  return response;
+};
