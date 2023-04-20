@@ -1,11 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../../components/Card/Card';
 import { getAllProducts, getAllAuctions } from '../../services/ProductService';
-import './AllProducts.css'
+import './AllProducts.css';
+
+const categoryEnum = [
+  'amigurumis',
+  'complementos',
+  'jerseys',
+  'camisetas',
+  'gorros',
+  'calcetines',
+  'manoplas',
+  'chales',
+  'bastidores',
+];
+
+const categoryNames = {
+  amigurumis: 'Amigurumis',
+  complementos: 'Complementos',
+  jerseys: 'Jerseys',
+  camisetas: 'Camisetas',
+  gorros: 'Gorros',
+  calcetines: 'Calcetines',
+  manoplas: 'Manoplas',
+  chales: 'Chales',
+  bastidores: 'Bastidores',
+};
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [auctions, setAuctions] = useState([]);
+  const [filterCategory, setFilterCategory] = useState(null);
+  const [filterType, setFilterType] = useState('all');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -22,13 +48,51 @@ const AllProducts = () => {
     fetchAuctions();
   }, []);
 
+  const handleCategoryChange = (category) => {
+    setFilterCategory(category);
+  };
+
+  const handleTypeChange = (type) => {
+    setFilterType(type);
+  };
+
+  const filteredItems = [...products, ...auctions]
+    .filter((item) => !filterCategory || item.category === filterCategory)
+    .filter((item) => {
+      if (filterType === 'all') return true;
+      if (filterType === 'product') return !item.endDate;
+      if (filterType === 'auction') return !!item.endDate;
+      return true;
+    })
+    .sort(() => Math.random() - 0.5);
+
   return (
     <div className="all-products">
-      {products.map((product) => (
-        <Card key={`product-${product._id}`} item={product} type="product" />
-      ))}
-      {auctions.map((auction) => (
-        <Card key={`auction-${auction._id}`} item={auction} type="auction" />
+      <div className="filters">
+        <p className="filter-text">¿Qué es lo que buscas?</p>
+        <div className="filter-type">
+          <button onClick={() => handleTypeChange('all')}>All</button>
+          <button onClick={() => handleTypeChange('product')}>Products</button>
+          <button onClick={() => handleTypeChange('auction')}>Auctions</button>
+        </div>
+        <div className="filter-category">
+          {categoryEnum.map((category) => (
+            <button
+              key={category}
+              onClick={() => handleCategoryChange(category)}
+              className={`category-button ${filterCategory === category ? 'selected' : ''}`}
+            >
+              {categoryNames[category]}
+            </button>
+          ))}
+        </div>
+      </div>
+      {filteredItems.map((item) => (
+        <Card
+          key={`${item.endDate ? 'auction' : 'product'}-${item._id}`}
+          item={item}
+          type={item.endDate ? 'auction' : 'product'}
+        />
       ))}
     </div>
   );

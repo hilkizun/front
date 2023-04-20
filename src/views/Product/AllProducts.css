@@ -4,3 +4,49 @@
   gap: 20px;
 }
 
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.filter-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.filter-type,
+.filter-category {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.category-button,
+.filter-type button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.category-button.selected,
+.filter-type button.selected {
+  background-color: #929496;
+  color: #fff;
+  border-color: #929496;
+}
+
+.category-button:hover,
+.filter-type button:hover {
+  background-color: #929496;
+  color: #fff;
+  border-color: #929496;
+}

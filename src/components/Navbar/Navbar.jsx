@@ -26,6 +26,14 @@ const Navbar = () => {
                 <li className="nav-item">
                   <NavLink
                     className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                    to="/products"
+                  >
+                    Productos
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
                     to="/login"
                   >
                     Login
@@ -43,6 +51,14 @@ const Navbar = () => {
             )}
             {isAuthLoaded && currentUser && (
               <>
+              <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                    to="/products"
+                  >
+                    Productos
+                  </NavLink>
+                </li>
               <li className="nav-item">
               <NavLink
                 className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}

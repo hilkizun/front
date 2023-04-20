@@ -188,7 +188,7 @@ const Detail = ({ type }) => {
             {outbid && <p>Te han superado la puja</p>}
           </>
         ) : (
-          <p>Subasta finalizada - Puja final: ${itemData.currentPrice}</p>
+          <p>Subasta finalizada - Precio Final: {itemData.currentPrice}€</p>
         )}
       </>
     )}
