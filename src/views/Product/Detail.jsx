@@ -7,7 +7,7 @@ import AuthContext from '../../contexts/AuthContext';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/dateUtils';
-import { createProductPurchase } from '../../services/ProductPurchaseService';
+import { createProductPurchase , getProductPurchaseById } from '../../services/ProductPurchaseService';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -94,6 +94,8 @@ const Detail = ({ type }) => {
   }
 
   const images = itemData.image.map(img => ({ original: img, thumbnail: img }));
+
+
   const handleProductPurchase = async () => {
     if (!currentUser) {
       alert('Necesitas estar logueado para comprar. Por favor, inicia sesión.');
@@ -103,15 +105,21 @@ const Detail = ({ type }) => {
     try {
       const purchaseData = {
         productId: id,
-        userId: currentUser._id,
+        userId: currentUser.id,
       };
 
       const productPurchase = await createProductPurchase(purchaseData);
-      navigate(`/purchase/${productPurchase._id}`);
+  
+      // const fetchedProductPurchase = await getProductPurchaseById(productPurchase._id);
+
+      navigate(`/purchase-address/${productPurchase._id}`);
+
     } catch (error) {
       alert('Ocurrió un error al realizar la compra. Por favor, inténtalo de nuevo.');
     }
-    }
+  };
+  
+  
 
   return (
     <div>

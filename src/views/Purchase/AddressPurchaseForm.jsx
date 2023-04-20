@@ -1,63 +1,127 @@
 import { useFormik } from 'formik';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import FormControl from '../../components/FormControl/FormControl';
 import Input from '../../components/Input/Input';
 import { updateProductPurchase } from '../../services/ProductPurchaseService';
 import AuthContext from '../../contexts/AuthContext';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getProductPurchaseById } from '../../services/ProductPurchaseService';
 
-const AddressPurchaseForm = ({ productPurchase, user, onSubmit }) => {
+const AddressPurchaseForm = () => { 
+  const { purchaseId } = useParams();
+  const [productPurchase, setProductPurchase] = useState(null);
+  const [user, setUser] = useState(null);
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProductPurchase = async () => {
+      const purchase = await getProductPurchaseById(purchaseId);
+      setProductPurchase(purchase);
+      setUser(purchase.buyer);
+    };
+
+    fetchProductPurchase();
+  }, [purchaseId]);
+
   const initialValues = {
-    location: currentUser.location || {},
-    phone: currentUser.phone || ''
+    location: user?.location || {},
+    phone: user?.phone || ''
   };
 
   const {
-    values, errors, touched, handleChange, handleBlur,
-    isSubmitting, handleSubmit, setSubmitting, setFieldError
+    values, 
+    errors, 
+    touched, 
+    handleChange, 
+    handleBlur,
+    isSubmitting, 
+    handleSubmit, 
+    setSubmitting, 
+    setFieldError
   } = useFormik({
     initialValues: initialValues,
     validateOnBlur: true,
     validateOnChange: false,
-    validationSchema: purchaseSchema,
-    onSubmit: (values) => {
-      updateProductPurchase(productPurchase._id, values)
-        .then(response => {
-          onSubmit(response.data);
-        })
-        .catch(err => {
-          console.error(err);
-          setSubmitting(false);
-        });
+    onSubmit: async (values) => {
+      try {
+        const updatedValues = {
+          ...values,
+          productPurchaseId: productPurchase._id,
+          buyerId: user._id
+        };
+  
+        await updateProductPurchase(productPurchase._id, updatedValues);
+        navigate(`/thank-you/${productPurchase._id}`);
+      } catch (err) {
+        console.error(err);
+        setSubmitting(false);
+      }
     }
   });
+  
 
   return (
     <div>
       <h1>Completa la dirección de envío</h1>
 
       <form onSubmit={handleSubmit}>
-        <FormControl label="Dirección">
+        <FormControl 
+              text="Dirección"
+              htmlFor="location.address">
           <Input
             name="location.address"
             value={values.location.address}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.location?.address && errors.location?.address}
+            disabled={!productPurchase || !user}
           />
         </FormControl>
 
-        <FormControl label="Ciudad">
+        <FormControl 
+              text="Número"
+              htmlFor="location.number">
+          <Input
+            name="location.number"
+            type="number"
+            value={values.location.number}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.location?.number && errors.location?.number}
+            disabled={!productPurchase || !user}
+          />
+        </FormControl>
+
+        <FormControl 
+              text="Piso"
+              htmlFor="location.floor">
+          <Input
+            name="location.floor"
+            value={values.location.floor}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.location?.floor && errors.location?.floor}
+            disabled={!productPurchase || !user}
+          />
+        </FormControl>
+
+        <FormControl 
+        text="Ciudad"
+        htmlFor="location.city">
           <Input
             name="location.city"
             value={values.location.city}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.location?.city && errors.location?.city}
+            disabled={!productPurchase || !user}
           />
         </FormControl>
 
-        <FormControl label="Código postal">
+        <FormControl 
+          text="Código postal"
+          htmlFor="location.postalCode">
           <Input
             name="location.postalCode"
             type="number"
@@ -65,21 +129,24 @@ const AddressPurchaseForm = ({ productPurchase, user, onSubmit }) => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.location?.postalCode && errors.location?.postalCode}
+            disabled={!productPurchase || !user}
           />
         </FormControl>
 
-        <FormControl label="Teléfono">
+        <FormControl
+              text="Teléfono"
+              htmlFor="phone">
           <Input
             name="phone"
-            type="number"
             value={values.phone}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.phone && errors.phone}
+            disabled={!productPurchase || !user}
           />
         </FormControl>
 
-        <button className="btn btn-secondary" type="submit" disabled={isSubmitting}>
+        <button className="btn btn-secondary" type="submit" disabled={isSubmitting || !productPurchase || !user}>
           {isSubmitting
             ? 'Submitting...'
             : 'Submit'

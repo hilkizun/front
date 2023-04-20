@@ -18,15 +18,15 @@ const Create = () => {
   });
 
   const categoryEnum = [
-    { key: "amigurumis", value: "Amigurumi" },
-    { key: "complementos", value: "Complemento" },
-    { key: "jerseys", value: "Jersey / Cazadora" },
-    { key: "camisetas", value: "Camiseta" },
-    { key: "gorros", value: "Gorro / Sombrero" },
-    { key: "calcetines", value: "Calcetines" },
-    { key: "manoplas", value: "Manoplas / Mitones" },
-    { key: "chales", value: "Chal" },
-    { key: "bastidores", value: "Bastidor" },
+    { key: "Amigurumi", value: "amigurumis" },
+    { key: "Complemento", value: "complementos" },
+    { key: "Jersey / Cazadora", value: "jerseys" },
+    { key: "Camiseta", value: "camisetas" },
+    { key: "Gorro / Sombrero", value: "gorros" },
+    { key: "Calcetines", value: "calcetines" },
+    { key: "Manoplas / Mitones", value: "manoplas" },
+    { key: "Chal", value: "chales" },
+    { key: "Bastidor", value: "bastidores" },
   ];  
 
   const [productType, setProductType] = useState('');

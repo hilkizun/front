@@ -3,22 +3,22 @@ import { createHttp } from './BaseService';
 const authenticatedHttp = createHttp(true);
 const unauthenticatedHttp = createHttp(false);
 
-export const createProductPurchase = (formData) => {
-  return authenticatedHttp.post('/purchase', formData)
-    .then(response => response.data);
+export const createProductPurchase = async (formData) => {
+  const response = await authenticatedHttp.post('/purchase', formData);
+      return response;
 };
 
 export const updateProductPurchase = (id, formData) => {
-  return authenticatedHttp.put(`/purchase/${id}`, formData)
+  return authenticatedHttp.patch(`/purchase/${id}`, formData)
     .then(response => response.data);
 };
 
 export const getProductPurchaseById = async (id) => {
   const response = await authenticatedHttp.get(`/purchase/${id}`);
-  return response.data;
+  return response;
 };
 
 export const getAllProductPurchases = async () => {
   const response = await authenticatedHttp.get('/purchase');
-  return response.data;
+  return response;
 };

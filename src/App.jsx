@@ -10,6 +10,7 @@ import Create from "./views/Product/Create"
 import Detail from "./views/Product/Detail"
 import AllProducts from "./views/Product/AllProducts"
 import AddressPurchaseForm from "./views/Purchase/AddressPurchaseForm"
+import ThankYou from './views/Purchase/ThankYou';
 
 function App() {
   return (
@@ -26,8 +27,11 @@ function App() {
           <Route path="create" element={<ProtectedRoute>
               <Create />
             </ProtectedRoute>} />
-          <Route path="/purchase/:purchaseId" element={<ProtectedRoute>
+          <Route path="/purchase-address/:purchaseId" element={<ProtectedRoute>
               <AddressPurchaseForm />
+            </ProtectedRoute>} />
+          <Route path="/thank-you/:purchaseId" element={<ProtectedRoute>
+              <ThankYou />
             </ProtectedRoute>} />
           <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:id" element={<Detail type="product" />} />
