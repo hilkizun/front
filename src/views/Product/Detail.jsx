@@ -22,7 +22,8 @@ const Detail = ({ type }) => {
   const [remainingTime, setRemainingTime] = useState(null);
   const [highestBid, setHighestBid] = useState(null);
   const [winning, setWinning] = useState(false);
-  
+  const [outbid, setOutbid] = useState(false);
+
 
   const fetchData = async () => {
     let response;
@@ -49,21 +50,12 @@ const Detail = ({ type }) => {
     }
   };
 
-  const fetchHighestBid = async () => {
-    const response = await getHighestBid(id);
-    setHighestBid(response);
-    if (currentUser && response.bidder && currentUser.id === response.bidder) {
-      setWinning(true);
-    } else {
-      setWinning(false);
-    }
-  };
-
+  
   useEffect(() => {
     fetchData();
   }, [id, type, currentUser]);
   
-
+  
   useEffect(() => {
     if (type === 'auction' && itemData && itemData.endDate) {
       const intervalId = setInterval(() => {
@@ -78,14 +70,28 @@ const Detail = ({ type }) => {
       return () => clearInterval(intervalId);
     }
   }, [itemData]);
-
+  
   useEffect(() => {
     if (type === 'auction') {
       fetchHighestBid();
     }
   }, [id, currentUser]);
-
-
+  
+  const fetchHighestBid = async () => {
+    const response = await getHighestBid(id);
+    setHighestBid(response);
+    if (itemData && currentUser && response.bidder && currentUser.id === response.bidder) {
+      setWinning(true);
+      setOutbid(false);
+    } else if (itemData && currentUser && itemData.bids.some(bid => bid.bidder === currentUser.id)) {
+      setWinning(false);
+      setOutbid(true);
+    } else {
+      setWinning(false);
+      setOutbid(false);
+    }
+  };
+  
   const handleLikeClick = async () => {
     if (!currentUser) {
       alert('Necesitas estar logeado para hacer click. Por favor, inicia sesión.');
@@ -179,6 +185,7 @@ const Detail = ({ type }) => {
             <p>Finaliza: {formattedEndDate(itemData.endDate)}</p>
             <button onClick={handlePlaceBidClick}>Puja actual (${itemData.currentPrice})</button>
             {winning && <p>Estás ganando</p>}
+            {outbid && <p>Te han superado la puja</p>}
           </>
         ) : (
           <p>Subasta finalizada - Puja final: ${itemData.currentPrice}</p>
