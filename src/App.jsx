@@ -7,7 +7,8 @@ import Login from "./views/Login/Login"
 import Signup from "./views/Signup/Signup"
 import Profile from "./views/Profile/Profile"
 import Create from "./views/Product/Create"
-import Detail from "./views/Product/Detail"
+import DetailProduct from "./views/Product/DetailProduct"
+import DetailAuction from "./views/Product/DetailAuction"
 import AllProducts from "./views/Product/AllProducts"
 import AddressPurchaseForm from "./views/Purchase/AddressPurchaseForm"
 import ThankYou from './views/Purchase/ThankYou';
@@ -34,8 +35,8 @@ function App() {
               <ThankYou />
             </ProtectedRoute>} />
           <Route path="/products" element={<AllProducts />} />
-          <Route path="/products/:id" element={<Detail type="product" />} />
-          <Route path="/auction/:id" element={<Detail type="auction" />} />
+          <Route path="/products/:id" element={<DetailProduct type="product" />} />
+          <Route path="/auction/:id" element={<DetailAuction type="auction" />} />
         </Routes>
         
       </div>

@@ -2,20 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { useParams } from 'react-router-dom';
-import { getProduct, getAuction, likeProduct, unLikeProduct, fetchUserLikes, placeBid, getHighestBid } from '../../services/ProductService';
+import { getAuction, likeProduct, unLikeProduct, fetchUserLikes, placeBid, getHighestBid } from '../../services/ProductService';
 import AuthContext from '../../contexts/AuthContext';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/dateUtils';
-import { createProductPurchase , getProductPurchaseById } from '../../services/ProductPurchaseService';
 import { useNavigate } from 'react-router-dom';
 
-
-
-const Detail = ({ type }) => {
+const DetailAuction = () => {
   const { id } = useParams();
   const { currentUser } = useContext(AuthContext);
-  const navigate = useNavigate();
   const [itemData, setItemData] = useState(null);
   const [likesCount, setLikesCount] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -24,40 +20,26 @@ const Detail = ({ type }) => {
   const [winning, setWinning] = useState(false);
   const [outbid, setOutbid] = useState(false);
 
-
   const fetchData = async () => {
-    let response;
-    if (type === 'product') {
-      response = await getProduct(id);
-    } else {
-      response = await getAuction(id);
-    }
+    const response = await getAuction(id);
     setItemData(response);
     setLikesCount(response.likesCount);
 
     if (currentUser) {
       const userLikes = await fetchUserLikes();
       if (userLikes) {
-        const likedItem = userLikes.find(like => {
-          if (type === 'product') {
-            return like.product && like.product._id === id;
-          } else {
-            return like.auction && like.auction._id === id;
-          }
-        });
+        const likedItem = userLikes.find(like => like.auction && like.auction._id === id);
         setLiked(Boolean(likedItem));
       }
     }
   };
 
-  
   useEffect(() => {
     fetchData();
-  }, [id, type, currentUser]);
-  
+  }, [id, currentUser]);
   
   useEffect(() => {
-    if (type === 'auction' && itemData && itemData.endDate) {
+    if (itemData && itemData.endDate) {
       const intervalId = setInterval(() => {
         const { days, hours, minutes, seconds } = timeRemaining(itemData.endDate);
         if (days < 0 || hours < 0 || minutes < 0 || seconds < 0) {
@@ -72,9 +54,7 @@ const Detail = ({ type }) => {
   }, [itemData]);
   
   useEffect(() => {
-    if (type === 'auction') {
-      fetchHighestBid();
-    }
+    fetchHighestBid();
   }, [id, currentUser]);
   
   const fetchHighestBid = async () => {
@@ -91,7 +71,6 @@ const Detail = ({ type }) => {
       setOutbid(false);
     }
   };
-  
   const handleLikeClick = async () => {
     if (!currentUser) {
       alert('Necesitas estar logeado para hacer click. Por favor, inicia sesión.');
@@ -99,13 +78,13 @@ const Detail = ({ type }) => {
     }
 
     if (!liked) {
-      await likeProduct(id, type);
+      await likeProduct(id, 'auction');
       setLiked(true);
       setLikesCount(likesCount + 1);
     } else {
       const result = window.confirm('¿Estás seguro de que ya no te gusta?');
       if (result) {
-        await unLikeProduct(id, type);
+        await unLikeProduct(id, 'auction');
         setLiked(false);
         setLikesCount(likesCount - 1);
       }
@@ -118,29 +97,6 @@ const Detail = ({ type }) => {
 
   const images = itemData.image.map(img => ({ original: img, thumbnail: img }));
 
-  const handleProductPurchase = async () => {
-    if (!currentUser) {
-      alert('Necesitas estar logueado para comprar. Por favor, inicia sesión.');
-      return;
-    }
-  
-    try {
-      const purchaseData = {
-        productId: id,
-        userId: currentUser.id,
-      };
-
-      const productPurchase = await createProductPurchase(purchaseData);
-      navigate(`/purchase-address/${productPurchase._id}`);
-
-    } catch (error) {
-      alert('Ocurrió un error al realizar la compra. Por favor, inténtalo de nuevo.');
-    }
-  };
-
-  
-
-  
   const handlePlaceBidClick = async () => {
     const bidAmount = parseFloat(prompt('Introduce el importe de tu puja:'));
     if (bidAmount && bidAmount > itemData.currentPrice) {
@@ -156,44 +112,37 @@ const Detail = ({ type }) => {
     }
   };
 
-  
   return (
     <div>
       <h1>{itemData.name}</h1>
       <p>{itemData.description}</p>
       <ImageGallery items={images} />
       {
-  currentUser ? (
-    <button onClick={handleLikeClick} className={`like-button ${liked ? 'liked' : ''}`}>
-      {liked ? <FaHeart /> : <FaRegHeart />}
-      <span>{likesCount}</span>
-    </button>
-  ) : (
-    <div>
-      <FaRegHeart />
-      <span>{likesCount}</span>
-    </div>
-  )
-}
-{type === 'product' ? (
-      <button onClick={handleProductPurchase}>Buy now (${itemData.price})</button>
-    ) : (
-      <>
-        {remainingTime ? (
-          <>
-            <p>Quedan: {remainingTime.days}d {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s</p>
-            <p>Finaliza: {formattedEndDate(itemData.endDate)}</p>
-            <button onClick={handlePlaceBidClick}>Puja actual (${itemData.currentPrice})</button>
-            {winning && <p>Estás ganando</p>}
-            {outbid && <p>Te han superado la puja</p>}
-          </>
+        currentUser ? (
+          <button onClick={handleLikeClick} className={`like-button ${liked ? 'liked' : ''}`}>
+            {liked ? <FaHeart /> : <FaRegHeart />}
+            <span>{likesCount}</span>
+          </button>
         ) : (
-          <p>Subasta finalizada - Precio Final: {itemData.currentPrice}€</p>
-        )}
-      </>
-    )}
-  </div>
+          <div>
+            <FaRegHeart />
+            <span>{likesCount}</span>
+          </div>
+        )
+      }
+      {remainingTime ? (
+        <>
+          <p>Quedan: {remainingTime.days}d {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s</p>
+          <p>Finaliza: {formattedEndDate(itemData.endDate)}</p>
+          <button onClick={handlePlaceBidClick}>Puja actual (${itemData.currentPrice})</button>
+          {winning && <p>Estás ganando</p>}
+          {outbid && <p>Te han superado la puja</p>}
+        </>
+      ) : (
+        <p>Subasta finalizada - Precio Final: {itemData.currentPrice}€</p>
+      )}
+    </div>
   );
 };
 
-export default Detail;
+export default DetailAuction;

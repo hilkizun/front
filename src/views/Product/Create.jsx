@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import FormControl from '../../components/FormControl/FormControl';
 import { createProduct, createAuction } from '../../services/ProductService';
 import AuthContext from '../../contexts/AuthContext';
+import './Create.css';
 
 const Create = () => {
   const [values, setvalues] = useState({
@@ -132,12 +133,13 @@ const Create = () => {
               text="Description"
               htmlFor="description"
             >
-              <Input
+              <textarea
                 id="description"
                 name="description"
                 value={values.description}
                 onChange={handleInputChange}
                 placeholder="Enter a description"
+                rows={4}
               />
             </FormControl>
 
@@ -209,12 +211,13 @@ const Create = () => {
               text="Description"
               htmlFor="description"
             >
-              <Input
+                <textarea
                 id="description"
                 name="description"
                 value={values.description}
                 onChange={handleInputChange}
                 placeholder="Enter a description"
+                rows={4}
               />
             </FormControl>
 
