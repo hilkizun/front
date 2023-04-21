@@ -72,3 +72,8 @@ export const getUserAuctions = async () => {
   const response = await authenticatedHttp.get('/userauctions');
   return response;
 };
+
+export const getWinningProducts = async () => {
+  const response = await authenticatedHttp.get('/winnerproducts');
+  return response;
+};

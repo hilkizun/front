@@ -1,13 +1,15 @@
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../contexts/AuthContext";
-import { getLikedItems, getUserProducts, getUserAuctions } from '../../services/ProductService';
+import { getLikedItems, getUserProducts, getUserAuctions, getWinningProducts } from '../../services/ProductService';
 import Card from '../../components/Card/Card';
+import './Profile.css';
 
 const Profile = () => {
   const { currentUser } = useContext(AuthContext)
   const [likedItems, setLikedItems] = useState([]);
   const [userProducts, setUserProducts] = useState([]);
   const [userAuctions, setUserAuctions] = useState([]);
+  const [wonProducts, setWonProducts] = useState([]);
 
   useEffect(() => {
     const fetchLikedItems = async () => {
@@ -29,41 +31,75 @@ const Profile = () => {
     fetchUserItems();
   }, [currentUser]);
 
+  useEffect(() => {
+    const fetchWonProducts = async () => {
+      const fetchedWonProducts = await getWinningProducts();
+      setWonProducts(fetchedWonProducts);
+    };
+
+    fetchWonProducts();
+  }, [currentUser]);
+
   return (
     <div>
       <h1>
         Hola, {currentUser.firstName}
       </h1>
-      <h2>Has dado like</h2>
-      <div className="liked-items">
-        {likedItems.map((like) => {
-          const item = like.auction || like.product;
-          return (
-            <Card
-              key={`${item.endDate ? 'auction' : 'product'}-${item._id}`}
-              item={item}
-              type={item.endDate ? 'auction' : 'product'}
-            />
-          );
-        })}
-      </div>
-      <h2>Estos son tus artículos</h2>
-      <div className="user-items">
-        {userProducts.map((product) => (
-          <Card
-            key={`product-${product._id}`}
-            item={product}
-            type="product"
-          />
-        ))}
-        {userAuctions.map((auction) => (
-          <Card
-            key={`auction-${auction._id}`}
-            item={auction}
-            type="auction"
-          />
-        ))}
-      </div>
+      
+      {wonProducts.length > 0 && (
+        <>
+          <h2>¡Enhorabuena has ganado esta Subasta!</h2>
+          <div className="won-items">
+            {wonProducts.map((product) => (
+              <Card
+                key={`product-${product._id}`}
+                item={product}
+                type="product"
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {likedItems.length > 0 && (
+        <>
+          <h2>Has dado like</h2>
+          <div className="liked-items">
+            {likedItems.map((like) => {
+              const item = like.auction || like.product;
+              return (
+                <Card
+                  key={`${item.endDate ? 'auction' : 'product'}-${item._id}`}
+                  item={item}
+                  type={item.endDate ? 'auction' : 'product'}
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {(userProducts.length > 0 || userAuctions.length > 0) && (
+        <>
+          <h2>Estos son tus artículos</h2>
+          <div className="user-items">
+            {userProducts.map((product) => (
+              <Card
+                key={`product-${product._id}`}
+                item={product}
+                type="product"
+              />
+            ))}
+            {userAuctions.map((auction) => (
+              <Card
+                key={`auction-${auction._id}`}
+                item={auction}
+                type="auction"
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
