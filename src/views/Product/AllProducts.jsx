@@ -49,11 +49,11 @@ const AllProducts = () => {
   }, []);
 
   const handleCategoryChange = (category) => {
-    setFilterCategory(category);
+    setFilterCategory((prevCategory) => (prevCategory === category ? null : category));
   };
 
   const handleTypeChange = (type) => {
-    setFilterType(type);
+    setFilterType((prevType) => (prevType === type ? 'all' : type));
   };
 
   const filteredItems = [...products, ...auctions]
@@ -66,16 +66,25 @@ const AllProducts = () => {
     })
     .sort(() => Math.random() - 0.5);
 
-  return (
-    <div className="all-products">
-      <div className="filters">
-        <p className="filter-text">¿Qué es lo que buscas?</p>
-        <div className="filter-type">
-          <button onClick={() => handleTypeChange('all')}>All</button>
-          <button onClick={() => handleTypeChange('product')}>Products</button>
-          <button onClick={() => handleTypeChange('auction')}>Auctions</button>
-        </div>
-        <div className="filter-category">
+    return (
+      <div className="all-products">
+        <div className="filters">
+          <p className="filter-text">¿Qué es lo que buscas?</p>
+          <div className="filter-type">
+            <button
+              onClick={() => handleTypeChange('product')}
+              className={`type-button ${filterType === 'product' ? 'selected' : ''}`}
+            >
+              ¡Cómpralo ya!
+            </button>
+            <button
+              onClick={() => handleTypeChange('auction')}
+              className={`type-button ${filterType === 'auction' ? 'selected' : ''}`}
+            >
+              Subastas
+            </button>
+          </div>
+          <div className="filter-category">
           {categoryEnum.map((category) => (
             <button
               key={category}
