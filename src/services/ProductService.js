@@ -57,3 +57,18 @@ export const getHighestBid = async (auctionId) => {
   const response = await unauthenticatedHttp.get(`/auction/${auctionId}/highest-bid`);
   return response;
 };
+
+export const getLikedItems = async () => {
+  const response = await authenticatedHttp.get('/liked');
+  return response;
+};
+
+export const getUserProducts = async () => {
+  const response = await authenticatedHttp.get('/userproducts');
+  return response;
+};
+
+export const getUserAuctions = async () => {
+  const response = await authenticatedHttp.get('/userauctions');
+  return response;
+};
