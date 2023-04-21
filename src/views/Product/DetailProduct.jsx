@@ -61,11 +61,13 @@ const DetailProduct = () => {
   const images = itemData.image.map(img => ({ original: img, thumbnail: img }));
 
   const handleProductPurchase = async () => {
-    if (!currentUser) {
-      alert('Necesitas estar logueado para comprar. Por favor, inicia sesión.');
-      return;
-    }
-  
+  if (!currentUser) {
+    alert('Necesitas estar logueado para comprar. Por favor, inicia sesión.');
+    return;
+  }
+
+  const result = window.confirm(`Vas a comprar ${itemData.name} por ${itemData.price} €. Solo tienes que introducir tu dirección para completar el pedido.`);
+  if (result) {
     try {
       const purchaseData = {
         productId: id,
@@ -78,7 +80,8 @@ const DetailProduct = () => {
     } catch (error) {
       alert('Ocurrió un error al realizar la compra. Por favor, inténtalo de nuevo.');
     }
-  };
+  }
+};
 
   return (
     <div>
