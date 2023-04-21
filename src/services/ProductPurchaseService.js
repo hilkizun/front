@@ -22,3 +22,8 @@ export const getAllProductPurchases = async () => {
   const response = await authenticatedHttp.get('/purchase');
   return response;
 };
+
+export const deleteProductPurchase = async (id) => {
+  const response = await authenticatedHttp.delete(`/purchase/${id}`);
+  return response;
+};

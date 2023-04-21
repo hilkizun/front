@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import { useContext, useEffect, useState } from 'react';
 import FormControl from '../../components/FormControl/FormControl';
 import Input from '../../components/Input/Input';
-import { updateProductPurchase } from '../../services/ProductPurchaseService';
+import { updateProductPurchase, deleteProductPurchase } from '../../services/ProductPurchaseService';
 import AuthContext from '../../contexts/AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductPurchaseById } from '../../services/ProductPurchaseService';
@@ -12,6 +12,7 @@ const AddressPurchaseForm = () => {
   const [productPurchase, setProductPurchase] = useState(null);
   const [user, setUser] = useState(null);
   const { currentUser } = useContext(AuthContext);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,35 @@ const AddressPurchaseForm = () => {
 
     fetchProductPurchase();
   }, [purchaseId]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (!isFormSubmitted) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+  ////////////////////
+    const handleUnload = async () => {
+      if (!isFormSubmitted) {
+        alert('Si sales de la página sin completar el formulario, la compra no se realizará.');
+          try {
+          await deleteProductPurchase(purchaseId);
+        } catch (error) {
+          console.error('XXXXXXXXXXXX', error);
+        }
+      }
+    };
+  
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('unload', handleUnload);
+  
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('unload', handleUnload);
+    };
+  }, [isFormSubmitted, purchaseId]);
+///////////////////////  
 
   const initialValues = {
     location: user?.location || {},
@@ -52,6 +82,7 @@ const AddressPurchaseForm = () => {
         };
   
         await updateProductPurchase(productPurchase._id, updatedValues);
+        setIsFormSubmitted(true);
         navigate(`/thank-you/${productPurchase._id}`);
       } catch (err) {
         console.error(err);
