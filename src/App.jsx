@@ -17,7 +17,6 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-
       <div className="container my-3">
         <Routes>
           <Route path="login" element={<Login />} />
