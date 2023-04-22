@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useContext, useEffect, useState } from 'react';
+import React , { useContext, useEffect, useState } from 'react';
 import FormControl from '../../components/FormControl/FormControl';
 import Input from '../../components/Input/Input';
 import { updateProductPurchase, deleteProductPurchase } from '../../services/ProductPurchaseService';
@@ -39,7 +39,6 @@ const AddressPurchaseForm = () => {
           try {
           await deleteProductPurchase(purchaseId);
         } catch (error) {
-          console.error('XXXXXXXXXXXX', error);
         }
       }
     };

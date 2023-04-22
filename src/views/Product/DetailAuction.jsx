@@ -61,11 +61,6 @@ const DetailAuction = () => {
     const response = await getHighestBid(id);
     setHighestBid(response);
     if (itemData && currentUser && response.bidder && currentUser.id === response.bidder) {
-      console.log('itemData', itemData)
-      console.log('currentUser', currentUser)
-      console.log('response.bidder', response.bidder)
-      console.log('currentUser.id', currentUser.id)
-      console.log('response.bidder', response.bidder)
       setWinning(true);
       setOutbid(false);
     } else if (itemData && currentUser && itemData.bids.some(bid => bid.bidder === currentUser.id)) {
