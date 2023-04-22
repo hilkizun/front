@@ -10,15 +10,15 @@ import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/date
 import { useNavigate } from 'react-router-dom';
 
 const DetailAuction = () => {
-  const { id } = useParams();
-  const { currentUser } = useContext(AuthContext);
   const [itemData, setItemData] = useState(null);
   const [likesCount, setLikesCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const [highestBid, setHighestBid] = useState(null);
-  const [winning, setWinning] = useState(false);
   const [outbid, setOutbid] = useState(false);
+  const [winning, setWinning] = useState(false);
+  const { id } = useParams();
+  const { currentUser } = useContext(AuthContext);
 
   const fetchData = async () => {
     const response = await getAuction(id);
@@ -36,8 +36,8 @@ const DetailAuction = () => {
 
   useEffect(() => {
     fetchData();
-  }, [id, currentUser]);
-  
+  }, [currentUser]);
+
   useEffect(() => {
     if (itemData && itemData.endDate) {
       const intervalId = setInterval(() => {
@@ -52,15 +52,20 @@ const DetailAuction = () => {
       return () => clearInterval(intervalId);
     }
   }, [itemData]);
-  
+
   useEffect(() => {
     fetchHighestBid();
-  }, [id, currentUser]);
-  
+  }, [itemData]);
+
   const fetchHighestBid = async () => {
     const response = await getHighestBid(id);
     setHighestBid(response);
     if (itemData && currentUser && response.bidder && currentUser.id === response.bidder) {
+      console.log('itemData', itemData)
+      console.log('currentUser', currentUser)
+      console.log('response.bidder', response.bidder)
+      console.log('currentUser.id', currentUser.id)
+      console.log('response.bidder', response.bidder)
       setWinning(true);
       setOutbid(false);
     } else if (itemData && currentUser && itemData.bids.some(bid => bid.bidder === currentUser.id)) {
@@ -88,7 +93,7 @@ const DetailAuction = () => {
         setLiked(false);
         setLikesCount(likesCount - 1);
       }
-    }    
+    }
   };
 
   if (!itemData) {

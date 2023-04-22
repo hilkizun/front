@@ -23,22 +23,22 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="profile" element={<ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>} />
+            <Profile />
+          </ProtectedRoute>} />
           <Route path="create" element={<ProtectedRoute>
-              <Create />
-            </ProtectedRoute>} />
+            <Create />
+          </ProtectedRoute>} />
           <Route path="/purchase-address/:purchaseId" element={<ProtectedRoute>
-              <AddressPurchaseForm />
-            </ProtectedRoute>} />
+            <AddressPurchaseForm />
+          </ProtectedRoute>} />
           <Route path="/thank-you/:purchaseId" element={<ProtectedRoute>
-              <ThankYou />
-            </ProtectedRoute>} />
+            <ThankYou />
+          </ProtectedRoute>} />
           <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:id" element={<DetailProduct type="product" />} />
           <Route path="/auction/:id" element={<DetailAuction type="auction" />} />
         </Routes>
-        
+
       </div>
     </div>
   )
