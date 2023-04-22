@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../contexts/AuthContext";
-import { getLikedItems, getUserProducts, getUserAuctions, getWinningProducts } from '../../services/ProductService';
+import { getLikedItems, getUserProducts, getUserAuctions, getWinningProducts, getUserPurchases } from '../../services/ProductService';
 import Card from '../../components/Card/Card';
 import './Profile.css';
 
@@ -10,6 +10,7 @@ const Profile = () => {
   const [userProducts, setUserProducts] = useState([]);
   const [userAuctions, setUserAuctions] = useState([]);
   const [wonProducts, setWonProducts] = useState([]);
+  const [purchaseProducts, setPurchaseProducts] = useState([]);
 
   useEffect(() => {
     const fetchLikedItems = async () => {
@@ -38,6 +39,15 @@ const Profile = () => {
     };
 
     fetchWonProducts();
+  }, [currentUser]);
+
+  useEffect(() => {
+    const fetchPurchaseProducts = async () => {
+      const fetchedPurchaseProducts = await getUserPurchases();
+      setPurchaseProducts(fetchedPurchaseProducts);
+    };
+
+    fetchPurchaseProducts();
   }, [currentUser]);
 
   return (
@@ -95,6 +105,21 @@ const Profile = () => {
                 key={`auction-${auction._id}`}
                 item={auction}
                 type="auction"
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {purchaseProducts.length > 0 && (
+        <>
+          <h2>Productos comprados</h2>
+          <div className="purchase-items">
+            {purchaseProducts.map((product) => (
+              <Card
+                key={`product-${product._id}`}
+                item={product}
+                type="product"
               />
             ))}
           </div>

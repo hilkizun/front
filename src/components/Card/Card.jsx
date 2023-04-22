@@ -34,7 +34,9 @@ const Card = ({ item, type }) => {
           <div className="card-price-likes">
             <p className="card-price clickable">
               {type === 'product'
-                ? `¡Cómpralo ya! ${item.price}€`
+                ? (item.sellOut
+                    ? `Vendido por ${item.price}€`
+                    : `¡Cómpralo ya! ${item.price}€`)
                 : remainingTime
                 ? `Puja actual: ${item.currentPrice}€ - ${remainingTime.days}d ${remainingTime.hours}h ${remainingTime.minutes}m ${remainingTime.seconds}s`
                 : `Subasta finalizada - Puja final: ${item.currentPrice}€`}
@@ -52,7 +54,6 @@ const Card = ({ item, type }) => {
         </div>
       </div>
     </Link>
-
   );
 };
 

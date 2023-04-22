@@ -98,8 +98,11 @@ const DetailProduct = () => {
           <FaRegHeart />
           <span>{likesCount}</span>
         </div>
+      )}{itemData.sellOut ? (
+        <p>Vendido por {itemData.price} €</p>
+      ) : (
+        <button onClick={handleProductPurchase}>Compralo Ya {itemData.price} €</button>
       )}
-      <button onClick={handleProductPurchase}>Buy now (${itemData.price})</button>
     </div>
   );
 };

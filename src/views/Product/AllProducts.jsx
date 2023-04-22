@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../../contexts/AuthContext'
 import Card from '../../components/Card/Card';
 import { getAllProducts, getAllAuctions } from '../../services/ProductService';
 import './AllProducts.css';
@@ -32,6 +33,8 @@ const AllProducts = () => {
   const [auctions, setAuctions] = useState([]);
   const [filterCategory, setFilterCategory] = useState(null);
   const [filterType, setFilterType] = useState('all');
+  const [hideSoldItems, setHideSoldItems] = useState(true);
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -56,6 +59,10 @@ const AllProducts = () => {
     setFilterType((prevType) => (prevType === type ? 'all' : type));
   };
 
+  const handleHideSoldItems = () => {
+    setHideSoldItems(!hideSoldItems);
+  };
+
   const filteredItems = [...products, ...auctions]
     .filter((item) => !filterCategory || item.category === filterCategory)
     .filter((item) => {
@@ -64,12 +71,20 @@ const AllProducts = () => {
       if (filterType === 'auction') return !!item.endDate;
       return true;
     })
+    .filter((item) => !hideSoldItems || (
+      !item.boughtBy && 
+      (!item.isProductGenerated || item.isProductGenerated === false)
+      ))
     .sort(() => Math.random() - 0.5);
 
     return (
       <div className="all-products">
         <div className="filters">
-          <p className="filter-text">¿Qué es lo que buscas?</p>
+          <h1>
+            {currentUser
+              ? `Hola, ${currentUser.firstName} ¿Qué es lo que buscas hoy?`
+              : '¿Qué es lo que buscas?'}
+          </h1>
           <div className="filter-type">
             <button
               onClick={() => handleTypeChange('product')}
@@ -82,6 +97,12 @@ const AllProducts = () => {
               className={`type-button ${filterType === 'auction' ? 'selected' : ''}`}
             >
               Subastas
+            </button>
+            <button
+              onClick={handleHideSoldItems}
+              className={`type-button ${!hideSoldItems ? 'selected' : ''}`}
+            >
+              {hideSoldItems ? 'Mostrar vendidos' : 'Ocultar vendidos'}
             </button>
           </div>
           <div className="filter-category">

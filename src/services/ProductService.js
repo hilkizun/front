@@ -77,3 +77,8 @@ export const getWinningProducts = async () => {
   const response = await authenticatedHttp.get('/winnerproducts');
   return response;
 };
+
+export const getUserPurchases = async () => {
+  const response = await authenticatedHttp.get('/userpurchase');
+  return response;
+};

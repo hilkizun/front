@@ -59,12 +59,20 @@ const Navbar = () => {
                     Productos
                   </NavLink>
                 </li>
+            <li className="nav-item">
+              <NavLink
+                className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                to="/profile"
+              >
+                Perfil
+              </NavLink>
+            </li>
               <li className="nav-item">
               <NavLink
                 className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
                 to="/create"
               >
-                Create
+                Poner en venta
               </NavLink>
             </li>
               <li className="nav-item">
