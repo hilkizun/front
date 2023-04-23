@@ -3,6 +3,7 @@ import AuthContext from "../../contexts/AuthContext";
 import { getLikedItems, getUserProducts, getUserAuctions, getWinningProducts, getUserPurchases } from '../../services/ProductService';
 import Card from '../../components/Card/Card';
 import '../Product/AllProducts.css';
+import './Profile.css'
 
 const categoryEnum = [
   'amigurumis',
@@ -191,11 +192,13 @@ const Profile = () => {
             </button>
             <div className="won-items">
               {filteredWonProducts.map((product) => (
-                <Card
-                  key={`product-${product._id}`}
-                  item={product}
-                  type="product"
-                />
+                <div className="add-margin">
+                  <Card
+                    key={`product-${product._id}`}
+                    item={product}
+                    type="product"
+                  />
+                </div>
               ))}
             </div>
           </>
@@ -203,7 +206,7 @@ const Profile = () => {
 
         {filteredLikedItems.length > 0 && (
           <>
-            <h2>Has dado like</h2>
+            <h2>Favoritos</h2>
             <button
               onClick={handleFilterLikedItems}
               className={`category-button ${filterLikedItems ? 'selected' : ''}`}
@@ -214,11 +217,13 @@ const Profile = () => {
               {filteredLikedItems.map((like) => {
                 const item = like.auction || like.product;
                 return (
-                  <Card
-                    key={`${item.endDate ? 'auction' : 'product'}-${item._id}`}
-                    item={item}
-                    type={item.endDate ? 'auction' : 'product'}
-                  />
+                  <div className="add-margin">
+                    <Card
+                      key={`${item.endDate ? 'auction' : 'product'}-${item._id}`}
+                      item={item}
+                      type={item.endDate ? 'auction' : 'product'}
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -236,18 +241,22 @@ const Profile = () => {
             </button>
             <div className="user-items">
               {filteredUserProducts.map((product) => (
-                <Card
-                  key={`product-${product._id}`}
-                  item={product}
-                  type="product"
-                />
+                <div className="add-margin">
+                  <Card
+                    key={`product-${product._id}`}
+                    item={product}
+                    type="product"
+                  />
+                </div>
               ))}
               {filteredUserAuctions.map((auction) => (
-                <Card
-                  key={`auction-${auction._id}`}
-                  item={auction}
-                  type="auction"
-                />
+                <div className="add-margin">
+                  <Card
+                    key={`auction-${auction._id}`}
+                    item={auction}
+                    type="auction"
+                  />
+                </div>
               ))}
             </div>
           </>
@@ -264,11 +273,15 @@ const Profile = () => {
             </button>
             <div className="purchase-items">
               {filteredPurchaseProducts.map((product) => (
-                <Card
-                  key={`product-${product._id}`}
-                  item={product}
-                  type="product"
-                />
+                <div className="add-margin">
+                  ∏
+                  <Card
+                    key={`product-${product._id}`}
+                    item={product}
+                    type="product"
+                  />
+                </div>
+
               ))}
             </div>
           </>
