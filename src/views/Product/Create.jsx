@@ -65,12 +65,11 @@ const Create = () => {
     });
 
     if (productType === 'product') {
-      const createdProduct = await createProduct(formData);
-      navigate(`/products/${createdProduct.id}`);
+      await createProduct(formData);
     } else if (productType === 'auction') {
-      const createdAuction = await createAuction(formData);
-      navigate(`/auction/${createdAuction.id}`);
+      await createAuction(formData);
     }
+    navigate(`/products`);
   };
 
   return (
