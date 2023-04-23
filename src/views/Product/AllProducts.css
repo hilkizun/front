@@ -56,32 +56,6 @@
   border-color: #929496;
 }
 
-.filter-button {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  color: #333;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 10px;
-  padding: 6px 12px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  transition-duration: 0.4s;
-}
-
-.filter-button:hover {
-  background-color: #ccc;
-  color: white;
-}
-
-.filter-button.selected {
-  background-color: #4CAF50;
-  color: white;
-  border: 1px solid #4CAF50;
-}
-
 
 @media screen and (max-width: 767px) {
   .category-button,

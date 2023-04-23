@@ -113,15 +113,14 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
   
 
   const applyFilters = (items, filterName) => {
-    if (!filterWonProducts && !filterLikedItems && !filterUserItems && !filterPurchaseProducts) return items; // No se aplica ningún filtro adicional
     return items
       .filter((item) => !filterCategory || item.category === filterCategory)
       .filter((item) => {
-        if (filterWonProducts && filterName === 'wonProducts') return true;
-        if (filterLikedItems && filterName === 'likedItems') return true;
-        if (filterUserItems && filterName === 'userItems') return true;
-        if (filterPurchaseProducts && filterName === 'purchaseProducts') return true;
-        return !filterWonProducts && !filterLikedItems && !filterUserItems && !filterPurchaseProducts;
+        if (filterName === 'wonProducts') return filterWonProducts || !filterLikedItems && !filterUserItems && !filterPurchaseProducts;
+        if (filterName === 'likedItems') return filterLikedItems || !filterWonProducts && !filterUserItems && !filterPurchaseProducts;
+        if (filterName === 'userItems') return filterUserItems || !filterWonProducts && !filterLikedItems && !filterPurchaseProducts;
+        if (filterName === 'purchaseProducts') return filterPurchaseProducts || !filterWonProducts && !filterLikedItems && !filterUserItems;
+        return true;
       })
       .filter((item) => {
         if (showSoldItems) {
@@ -186,7 +185,7 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
           <h2>¡Enhorabuena has ganado esta Subasta!</h2>
   <button
     onClick={handleFilterWonProducts}
-    className={`filter-button ${filterWonProducts ? 'selected' : ''}`}
+    className={`category-type ${filterWonProducts ? 'selected' : ''}`}
   >
     Filtrar
   </button>
@@ -207,7 +206,7 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
           <h2>Has dado like</h2>
   <button
     onClick={handleFilterLikedItems}
-    className={`filter-button ${filterLikedItems ? 'selected' : ''}`}
+    className={`category-type ${filterLikedItems ? 'selected' : ''}`}
   >
     Filtrar
   </button>
@@ -231,7 +230,7 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
           <h2>Estos son tus artículos</h2>
   <button
     onClick={handleFilterUserItems}
-    className={`filter-button ${filterUserItems ? 'selected' : ''}`}
+    className={`category-button ${filterUserItems ? 'selected' : ''}`}
   >
     Filtrar
   </button>
@@ -259,7 +258,7 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
           <h2>Productos comprados</h2>
   <button
     onClick={handleFilterPurchaseProducts}
-    className={`filter-button ${filterPurchaseProducts ? 'selected' : ''}`}
+    className={`category-button ${filterPurchaseProducts ? 'selected' : ''}`}
   >
     Filtrar
   </button>
