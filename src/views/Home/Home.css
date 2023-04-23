@@ -19,9 +19,10 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #420842;
+  color: white;
   margin: 0;
   padding: 0;
+  font-weight: bold;
 }
 
 .hero-content {
@@ -43,7 +44,12 @@ html, body {
 
 .hero h1, .signup h2 {
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 4px 4px 8px #420842
+}
+
+.hero p, .signup p {
+  font-weight: bold;
+  text-shadow: 4px 4px 8px #420842
 }
 
 .products {
@@ -56,7 +62,7 @@ html, body {
 
 .gallery-container {
   width: 45%;
-  max-height: 120px;
+  max-height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,7 +70,7 @@ html, body {
 }
 
 .gallery-container img {
-  max-height: 120px; 
+  max-height: 200px; 
   object-fit: contain; 
 }
 
