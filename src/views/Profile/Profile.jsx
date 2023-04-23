@@ -39,9 +39,9 @@ const Profile = () => {
   const [filterType, setFilterType] = useState('all');
   const [showSoldItems, setShowSoldItems] = useState(false);
   const [filterWonProducts, setFilterWonProducts] = useState(false);
-const [filterLikedItems, setFilterLikedItems] = useState(false);
-const [filterUserItems, setFilterUserItems] = useState(false);
-const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
+  const [filterLikedItems, setFilterLikedItems] = useState(false);
+  const [filterUserItems, setFilterUserItems] = useState(false);
+  const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
 
 
 
@@ -56,11 +56,11 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
 
   useEffect(() => {
     const fetchUserItems = async () => {
-        const products = await getUserProducts();
-        const auctions = await getUserAuctions();
-        setUserProducts(products);
-        setUserAuctions(auctions);
-      };
+      const products = await getUserProducts();
+      const auctions = await getUserAuctions();
+      setUserProducts(products);
+      setUserAuctions(auctions);
+    };
 
     fetchUserItems();
   }, [currentUser]);
@@ -94,23 +94,23 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
   const handleHideSoldItems = () => {
     setShowSoldItems(!showSoldItems);
   };
-  
+
   const handleFilterWonProducts = () => {
     setFilterWonProducts((prev) => !prev);
   };
-  
+
   const handleFilterLikedItems = () => {
     setFilterLikedItems((prev) => !prev);
   };
-  
+
   const handleFilterUserItems = () => {
     setFilterUserItems((prev) => !prev);
   };
-  
+
   const handleFilterPurchaseProducts = () => {
     setFilterPurchaseProducts((prev) => !prev);
   };
-  
+
 
   const applyFilters = (items, filterName) => {
     return items
@@ -130,14 +130,14 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
         }
       });
   };
-  
+
 
   const filteredWonProducts = applyFilters(wonProducts, 'wonProducts');
   const filteredLikedItems = applyFilters(likedItems, 'likedItems');
   const filteredUserProducts = applyFilters(userProducts, 'userItems');
   const filteredUserAuctions = applyFilters(userAuctions, 'userItems');
   const filteredPurchaseProducts = applyFilters(purchaseProducts, 'purchaseProducts');
-  
+
 
 
   return (
@@ -145,7 +145,7 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
       <h1>
         Hola, {currentUser.firstName}
       </h1>
-      
+
       <div className="filters">
         <div className="filter-type">
           <button
@@ -161,11 +161,11 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
             Subastas
           </button>
           <button
-    onClick={handleHideSoldItems}
-    className={`type-button ${showSoldItems ? 'selected' : ''}`}
-  >
-    {showSoldItems ? 'Mostrar productos en venta' : 'Mostrar vendidos'}
-  </button>
+            onClick={handleHideSoldItems}
+            className={`type-button ${showSoldItems ? 'selected' : ''}`}
+          >
+            {showSoldItems ? 'Mostrar productos en venta' : 'Mostrar vendidos'}
+          </button>
         </div>
         <div className="filter-category">
           {categoryEnum.map((category) => (
@@ -180,99 +180,99 @@ const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
         </div>
       </div>
       <div className="content">
-      {filteredWonProducts.length > 0 && (
-        <>
-          <h2>¡Enhorabuena has ganado esta Subasta!</h2>
-  <button
-    onClick={handleFilterWonProducts}
-    className={`category-type ${filterWonProducts ? 'selected' : ''}`}
-  >
-    Filtrar
-  </button>
-          <div className="won-items">
-            {filteredWonProducts.map((product) => (
-              <Card
-                key={`product-${product._id}`}
-                item={product}
-                type="product"
-              />
-            ))}
-          </div>
-        </>
-      )}
-
-      {filteredLikedItems.length > 0 && (
-        <>
-          <h2>Has dado like</h2>
-  <button
-    onClick={handleFilterLikedItems}
-    className={`category-type ${filterLikedItems ? 'selected' : ''}`}
-  >
-    Filtrar
-  </button>
-          <div className="liked-items">
-            {filteredLikedItems.map((like) => {
-              const item = like.auction || like.product;
-              return (
+        {filteredWonProducts.length > 0 && (
+          <>
+            <h2>¡Enhorabuena has ganado esta Subasta!</h2>
+            <button
+              onClick={handleFilterWonProducts}
+              className={`category-button ${filterWonProducts ? 'selected' : ''}`}
+            >
+              Filtrar
+            </button>
+            <div className="won-items">
+              {filteredWonProducts.map((product) => (
                 <Card
-                  key={`${item.endDate ? 'auction' : 'product'}-${item._id}`}
-                  item={item}
-                  type={item.endDate ? 'auction' : 'product'}
+                  key={`product-${product._id}`}
+                  item={product}
+                  type="product"
                 />
-              );
-            })}
-          </div>
-        </>
-      )}
+              ))}
+            </div>
+          </>
+        )}
 
-      {(filteredUserProducts.length > 0 || filteredUserAuctions.length > 0) && (
-        <>
-          <h2>Estos son tus artículos</h2>
-  <button
-    onClick={handleFilterUserItems}
-    className={`category-button ${filterUserItems ? 'selected' : ''}`}
-  >
-    Filtrar
-  </button>
-          <div className="user-items">
-            {filteredUserProducts.map((product) => (
-              <Card
-                key={`product-${product._id}`}
-                item={product}
-                type="product"
-              />
-            ))}
-            {filteredUserAuctions.map((auction) => (
-              <Card
-                key={`auction-${auction._id}`}
-                item={auction}
-                type="auction"
-              />
-            ))}
-          </div>
-        </>
-      )}
+        {filteredLikedItems.length > 0 && (
+          <>
+            <h2>Has dado like</h2>
+            <button
+              onClick={handleFilterLikedItems}
+              className={`category-button ${filterLikedItems ? 'selected' : ''}`}
+            >
+              Filtrar
+            </button>
+            <div className="liked-items">
+              {filteredLikedItems.map((like) => {
+                const item = like.auction || like.product;
+                return (
+                  <Card
+                    key={`${item.endDate ? 'auction' : 'product'}-${item._id}`}
+                    item={item}
+                    type={item.endDate ? 'auction' : 'product'}
+                  />
+                );
+              })}
+            </div>
+          </>
+        )}
 
-      {filteredPurchaseProducts.length > 0 && (
-        <>
-          <h2>Productos comprados</h2>
-  <button
-    onClick={handleFilterPurchaseProducts}
-    className={`category-button ${filterPurchaseProducts ? 'selected' : ''}`}
-  >
-    Filtrar
-  </button>
-          <div className="purchase-items">
-            {filteredPurchaseProducts.map((product) => (
-              <Card
-                key={`product-${product._id}`}
-                item={product}
-                type="product"
-              />
-            ))}
-          </div>
-        </>
-      )}
+        {(filteredUserProducts.length > 0 || filteredUserAuctions.length > 0) && (
+          <>
+            <h2>Estos son tus artículos</h2>
+            <button
+              onClick={handleFilterUserItems}
+              className={`category-button ${filterUserItems ? 'selected' : ''}`}
+            >
+              Filtrar
+            </button>
+            <div className="user-items">
+              {filteredUserProducts.map((product) => (
+                <Card
+                  key={`product-${product._id}`}
+                  item={product}
+                  type="product"
+                />
+              ))}
+              {filteredUserAuctions.map((auction) => (
+                <Card
+                  key={`auction-${auction._id}`}
+                  item={auction}
+                  type="auction"
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {filteredPurchaseProducts.length > 0 && (
+          <>
+            <h2>Productos comprados</h2>
+            <button
+              onClick={handleFilterPurchaseProducts}
+              className={`category-button ${filterPurchaseProducts ? 'selected' : ''}`}
+            >
+              Filtrar
+            </button>
+            <div className="purchase-items">
+              {filteredPurchaseProducts.map((product) => (
+                <Card
+                  key={`product-${product._id}`}
+                  item={product}
+                  type="product"
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
