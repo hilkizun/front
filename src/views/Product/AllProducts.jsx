@@ -64,21 +64,27 @@ const AllProducts = () => {
   };
   
   const filteredItems = [...products, ...auctions]
-    .filter((item) => !filterCategory || item.category === filterCategory)
-    .filter((item) => {
-      if (filterType === 'all') return true;
-      if (filterType === 'product') return !item.endDate;
-      if (filterType === 'auction') return !!item.endDate;
-      return true;
-    })
-    .filter((item) => {
-      if (showSoldItems) {
-        return item.boughtBy || (item.isProductGenerated && item.isProductGenerated === true);
-      } else {
-        return !item.boughtBy && (!item.isProductGenerated || item.isProductGenerated === false);
-      }
-    })
-    .sort(() => Math.random() - 0.5);
+  .filter((item) => !filterCategory || item.category === filterCategory)
+  .filter((item) => {
+    if (filterType === 'all') return true;
+    if (filterType === 'product') return !item.endDate;
+    if (filterType === 'auction') return !!item.endDate;
+    return true;
+  })
+  .filter((item) => {
+    if (showSoldItems) {
+      return item.boughtBy || (item.isProductGenerated && item.isProductGenerated === true);
+    } else {
+      return !item.boughtBy && (!item.isProductGenerated || item.isProductGenerated === false);
+    }
+  })
+  .sort((a, b) => {
+    if (filterType === 'auction') {
+      return new Date(a.endDate) - new Date(b.endDate);
+    } else {
+      return Math.random() - 0.5;
+    }
+  });
   
   return (
     <div className="all-products">
