@@ -93,7 +93,8 @@ const DetailProduct = () => {
         <h1 className="detail-auction__title">{itemData.name}</h1>
         <p>{itemData.description}</p>
         {itemData.sellOut ? (
-          <p>Vendido por {itemData.price} €</p>
+          <div className="info-box">
+          <p><strong>Vendido por {itemData.price} €</strong></p></div>
         ) : (
           <div className="bid-container">
             <button className="bid-button" onClick={handleProductPurchase}>Compralo Ya {itemData.price} €</button>

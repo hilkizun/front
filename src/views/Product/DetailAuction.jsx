@@ -135,7 +135,7 @@ const DetailAuction = () => {
               <p>Quedan: {remainingTime.days}d {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s</p>
               <p>Finaliza: {formattedEndDate(itemData.endDate)}</p>
               <p>Pujas totales: {itemData.bids.length}</p>
-              <p><strong>Puja actual:</strong> {itemData.currentPrice}€</p>
+              <p><strong>Puja actual: {itemData.currentPrice}€</strong></p>
             </div>
             <div className="bid-container">
               <button className="bid-button" onClick={handlePlaceBidClick}>
