@@ -38,6 +38,11 @@ const Profile = () => {
   const [filterCategory, setFilterCategory] = useState(null);
   const [filterType, setFilterType] = useState('all');
   const [showSoldItems, setShowSoldItems] = useState(false);
+  const [filterWonProducts, setFilterWonProducts] = useState(false);
+const [filterLikedItems, setFilterLikedItems] = useState(false);
+const [filterUserItems, setFilterUserItems] = useState(false);
+const [filterPurchaseProducts, setFilterPurchaseProducts] = useState(false);
+
 
 
   useEffect(() => {
@@ -90,15 +95,33 @@ const Profile = () => {
     setShowSoldItems(!showSoldItems);
   };
   
+  const handleFilterWonProducts = () => {
+    setFilterWonProducts((prev) => !prev);
+  };
+  
+  const handleFilterLikedItems = () => {
+    setFilterLikedItems((prev) => !prev);
+  };
+  
+  const handleFilterUserItems = () => {
+    setFilterUserItems((prev) => !prev);
+  };
+  
+  const handleFilterPurchaseProducts = () => {
+    setFilterPurchaseProducts((prev) => !prev);
+  };
+  
 
-  const applyFilters = (items) => {
+  const applyFilters = (items, filterName) => {
+    if (!filterWonProducts && !filterLikedItems && !filterUserItems && !filterPurchaseProducts) return items; // No se aplica ningún filtro adicional
     return items
       .filter((item) => !filterCategory || item.category === filterCategory)
       .filter((item) => {
-        if (filterType === 'all') return true;
-        if (filterType === 'product') return !item.endDate;
-        if (filterType === 'auction') return !!item.endDate;
-        return true;
+        if (filterWonProducts && filterName === 'wonProducts') return true;
+        if (filterLikedItems && filterName === 'likedItems') return true;
+        if (filterUserItems && filterName === 'userItems') return true;
+        if (filterPurchaseProducts && filterName === 'purchaseProducts') return true;
+        return !filterWonProducts && !filterLikedItems && !filterUserItems && !filterPurchaseProducts;
       })
       .filter((item) => {
         if (showSoldItems) {
@@ -110,11 +133,12 @@ const Profile = () => {
   };
   
 
-  const filteredWonProducts = applyFilters(wonProducts);
-  const filteredLikedItems = applyFilters(likedItems);
-  const filteredUserProducts = applyFilters(userProducts);
-  const filteredUserAuctions = applyFilters(userAuctions);
-  const filteredPurchaseProducts = applyFilters(purchaseProducts);
+  const filteredWonProducts = applyFilters(wonProducts, 'wonProducts');
+  const filteredLikedItems = applyFilters(likedItems, 'likedItems');
+  const filteredUserProducts = applyFilters(userProducts, 'userItems');
+  const filteredUserAuctions = applyFilters(userAuctions, 'userItems');
+  const filteredPurchaseProducts = applyFilters(purchaseProducts, 'purchaseProducts');
+  
 
 
   return (
@@ -160,6 +184,12 @@ const Profile = () => {
       {filteredWonProducts.length > 0 && (
         <>
           <h2>¡Enhorabuena has ganado esta Subasta!</h2>
+  <button
+    onClick={handleFilterWonProducts}
+    className={`filter-button ${filterWonProducts ? 'selected' : ''}`}
+  >
+    Filtrar
+  </button>
           <div className="won-items">
             {filteredWonProducts.map((product) => (
               <Card
@@ -175,6 +205,12 @@ const Profile = () => {
       {filteredLikedItems.length > 0 && (
         <>
           <h2>Has dado like</h2>
+  <button
+    onClick={handleFilterLikedItems}
+    className={`filter-button ${filterLikedItems ? 'selected' : ''}`}
+  >
+    Filtrar
+  </button>
           <div className="liked-items">
             {filteredLikedItems.map((like) => {
               const item = like.auction || like.product;
@@ -193,6 +229,12 @@ const Profile = () => {
       {(filteredUserProducts.length > 0 || filteredUserAuctions.length > 0) && (
         <>
           <h2>Estos son tus artículos</h2>
+  <button
+    onClick={handleFilterUserItems}
+    className={`filter-button ${filterUserItems ? 'selected' : ''}`}
+  >
+    Filtrar
+  </button>
           <div className="user-items">
             {filteredUserProducts.map((product) => (
               <Card
@@ -215,6 +257,12 @@ const Profile = () => {
       {filteredPurchaseProducts.length > 0 && (
         <>
           <h2>Productos comprados</h2>
+  <button
+    onClick={handleFilterPurchaseProducts}
+    className={`filter-button ${filterPurchaseProducts ? 'selected' : ''}`}
+  >
+    Filtrar
+  </button>
           <div className="purchase-items">
             {filteredPurchaseProducts.map((product) => (
               <Card
