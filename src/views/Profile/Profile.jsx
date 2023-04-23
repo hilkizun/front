@@ -37,7 +37,6 @@ const Profile = () => {
   const [purchaseProducts, setPurchaseProducts] = useState([]);
   const [filterCategory, setFilterCategory] = useState(null);
   const [filterType, setFilterType] = useState('all');
-  
 
   useEffect(() => {
     const fetchLikedItems = async () => {
@@ -92,13 +91,9 @@ const Profile = () => {
         if (filterType === 'all') return true;
         if (filterType === 'product') return !item.endDate;
         if (filterType === 'auction') return !!item.endDate;
-        if (filterType === 'liked') return filteredLikedItems.some(liked => liked._id === item._id);
-        if (filterType === 'user') return filteredUserProducts.some(userProduct => userProduct._id === item._id);
-        if (filterType === 'purchased') return filteredPurchaseProducts.some(purchasedProduct => purchasedProduct._id === item._id);
         return true;
       });
   };
-  
 
   const filteredWonProducts = applyFilters(wonProducts);
   const filteredLikedItems = applyFilters(likedItems);
@@ -114,38 +109,31 @@ const Profile = () => {
       </h1>
       
       <div className="filters">
-      <div className="filter-type">
-  <button
-    onClick={() => handleTypeChange('product')}
-    className={`type-button ${filterType === 'product' ? 'selected' : ''}`}
-  >
-    ¡Cómpralo ya!
-  </button>
-  <button
-    onClick={() => handleTypeChange('auction')}
-    className={`type-button ${filterType === 'auction' ? 'selected' : ''}`}
-  >
-    Subastas
-  </button>
-  <button
-    onClick={() => handleTypeChange('liked')}
-    className={`type-button ${filterType === 'liked' ? 'selected' : ''}`}
-  >
-    Me gusta
-  </button>
-  <button
-    onClick={() => handleTypeChange('user')}
-    className={`type-button ${filterType === 'user' ? 'selected' : ''}`}
-  >
-    Mis artículos
-  </button>
-  <button
-    onClick={() => handleTypeChange('purchased')}
-    className={`type-button ${filterType === 'purchased' ? 'selected' : ''}`}
-  >
-    Comprados
-  </button>
-</div>
+        <div className="filter-type">
+          <button
+            onClick={() => handleTypeChange('product')}
+            className={`type-button ${filterType === 'product' ? 'selected' : ''}`}
+          >
+            ¡Cómpralo ya!
+          </button>
+          <button
+            onClick={() => handleTypeChange('auction')}
+            className={`type-button ${filterType === 'auction' ? 'selected' : ''}`}
+          >
+            Subastas
+          </button>
+        </div>
+        <div className="filter-category">
+          {categoryEnum.map((category) => (
+            <button
+              key={category}
+              onClick={() => handleCategoryChange(category)}
+              className={`category-button ${filterCategory === category ? 'selected' : ''}`}
+            >
+              {categoryNames[category]}
+            </button>
+          ))}
+        </div>
       </div>
       <div className="content">
       {filteredWonProducts.length > 0 && (
