@@ -113,8 +113,8 @@ const Signup = () => {
 
         <button className="btn btn-secondary" type="submit" disabled={isSubmitting}>
           {isSubmitting
-            ? 'Submitting...'
-            : 'Submit'
+            ? 'Enviando...'
+            : 'Registrarse'
           }
         </button>
       </form>

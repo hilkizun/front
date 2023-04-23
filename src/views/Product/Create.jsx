@@ -65,11 +65,12 @@ const Create = () => {
     });
 
     if (productType === 'product') {
-      await createProduct(formData);
+      const createdProduct = await createProduct(formData);
+      navigate(`/products/${createdProduct.id}`);
     } else if (productType === 'auction') {
-      await createAuction(formData);
+      const createdAuction = await createAuction(formData);
+      navigate(`/auction/${createdAuction.id}`);
     }
-    navigate(`/products`);
   };
 
   return (
@@ -249,7 +250,7 @@ const Create = () => {
           </>
         )}
 
-        <button type="submit" className="btn btn-secondary">Create</button>
+        <button type="submit" className="btn btn-secondary">Poner a la venta</button>
       </form>
     </div>
   );
