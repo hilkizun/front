@@ -4,7 +4,7 @@ import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { getProductPurchaseById } from '../../services/ProductPurchaseService';
 import AuthContext from '../../contexts/AuthContext';
-import './DetailAuction.css';
+import '../Product/DetailAuction.css';
 
 const ThankYou = () => {
   const { purchaseId } = useParams();

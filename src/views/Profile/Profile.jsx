@@ -4,6 +4,30 @@ import { getLikedItems, getUserProducts, getUserAuctions, getWinningProducts, ge
 import Card from '../../components/Card/Card';
 import './Profile.css';
 
+const categoryEnum = [
+  'amigurumis',
+  'complementos',
+  'jerseys',
+  'camisetas',
+  'gorros',
+  'calcetines',
+  'manoplas',
+  'chales',
+  'bastidores',
+];
+
+const categoryNames = {
+  amigurumis: 'Amigurumis',
+  complementos: 'Complementos',
+  jerseys: 'Jerseys',
+  camisetas: 'Camisetas',
+  gorros: 'Gorros',
+  calcetines: 'Calcetines',
+  manoplas: 'Manoplas',
+  chales: 'Chales',
+  bastidores: 'Bastidores',
+};
+
 const Profile = () => {
   const { currentUser } = useContext(AuthContext)
   const [likedItems, setLikedItems] = useState([]);
@@ -11,6 +35,8 @@ const Profile = () => {
   const [userAuctions, setUserAuctions] = useState([]);
   const [wonProducts, setWonProducts] = useState([]);
   const [purchaseProducts, setPurchaseProducts] = useState([]);
+  const [filterCategory, setFilterCategory] = useState(null);
+  const [filterType, setFilterType] = useState('all');
 
   useEffect(() => {
     const fetchLikedItems = async () => {
@@ -50,17 +76,71 @@ const Profile = () => {
     fetchPurchaseProducts();
   }, [currentUser]);
 
+  const handleCategoryChange = (category) => {
+    setFilterCategory((prevCategory) => (prevCategory === category ? null : category));
+  };
+
+  const handleTypeChange = (type) => {
+    setFilterType((prevType) => (prevType === type ? 'all' : type));
+  };
+
+  const applyFilters = (items) => {
+    return items
+      .filter((item) => !filterCategory || item.category === filterCategory)
+      .filter((item) => {
+        if (filterType === 'all') return true;
+        if (filterType === 'product') return !item.endDate;
+        if (filterType === 'auction') return !!item.endDate;
+        return true;
+      });
+  };
+
+  const filteredWonProducts = applyFilters(wonProducts);
+  const filteredLikedItems = applyFilters(likedItems);
+  const filteredUserProducts = applyFilters(userProducts);
+  const filteredUserAuctions = applyFilters(userAuctions);
+  const filteredPurchaseProducts = applyFilters(purchaseProducts);
+
+
   return (
     <div>
       <h1>
         Hola, {currentUser.firstName}
       </h1>
       
-      {wonProducts.length > 0 && (
+      <div className="filters">
+        <div className="filter-type">
+          <button
+            onClick={() => handleTypeChange('product')}
+            className={`type-button ${filterType === 'product' ? 'selected' : ''}`}
+          >
+            ¡Cómpralo ya!
+          </button>
+          <button
+            onClick={() => handleTypeChange('auction')}
+            className={`type-button ${filterType === 'auction' ? 'selected' : ''}`}
+          >
+            Subastas
+          </button>
+        </div>
+        <div className="filter-category">
+          {categoryEnum.map((category) => (
+            <button
+              key={category}
+              onClick={() => handleCategoryChange(category)}
+              className={`category-button ${filterCategory === category ? 'selected' : ''}`}
+            >
+              {categoryNames[category]}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="content">
+      {filteredWonProducts.length > 0 && (
         <>
           <h2>¡Enhorabuena has ganado esta Subasta!</h2>
           <div className="won-items">
-            {wonProducts.map((product) => (
+            {filteredWonProducts.map((product) => (
               <Card
                 key={`product-${product._id}`}
                 item={product}
@@ -71,11 +151,11 @@ const Profile = () => {
         </>
       )}
 
-      {likedItems.length > 0 && (
+      {filteredLikedItems.length > 0 && (
         <>
           <h2>Has dado like</h2>
           <div className="liked-items">
-            {likedItems.map((like) => {
+            {filteredLikedItems.map((like) => {
               const item = like.auction || like.product;
               return (
                 <Card
@@ -89,18 +169,18 @@ const Profile = () => {
         </>
       )}
 
-      {(userProducts.length > 0 || userAuctions.length > 0) && (
+      {(filteredUserProducts.length > 0 || filteredUserAuctions.length > 0) && (
         <>
           <h2>Estos son tus artículos</h2>
           <div className="user-items">
-            {userProducts.map((product) => (
+            {filteredUserProducts.map((product) => (
               <Card
                 key={`product-${product._id}`}
                 item={product}
                 type="product"
               />
             ))}
-            {userAuctions.map((auction) => (
+            {filteredUserAuctions.map((auction) => (
               <Card
                 key={`auction-${auction._id}`}
                 item={auction}
@@ -111,11 +191,11 @@ const Profile = () => {
         </>
       )}
 
-      {purchaseProducts.length > 0 && (
+      {filteredPurchaseProducts.length > 0 && (
         <>
           <h2>Productos comprados</h2>
           <div className="purchase-items">
-            {purchaseProducts.map((product) => (
+            {filteredPurchaseProducts.map((product) => (
               <Card
                 key={`product-${product._id}`}
                 item={product}
@@ -125,8 +205,9 @@ const Profile = () => {
           </div>
         </>
       )}
+      </div>
     </div>
   );
-}
+};
 
 export default Profile;
