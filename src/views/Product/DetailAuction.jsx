@@ -10,6 +10,8 @@ import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/date
 import { useNavigate } from 'react-router-dom';
 import './DetailAuction.css'
 
+
+
 const DetailAuction = () => {
   const [itemData, setItemData] = useState(null);
   const [likesCount, setLikesCount] = useState(0);
@@ -21,6 +23,10 @@ const DetailAuction = () => {
   const { id } = useParams();
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const handleGoToProfile = () => {
+    navigate('/profile');
+  };
 
 
   const fetchData = async () => {
@@ -97,11 +103,6 @@ const DetailAuction = () => {
   if (!itemData) {
     return <p>Cargando...</p>;
   }
-  const handleGoToProfile = () => {
-    navigate('/profile');
-  };
-    const auctionEnded = itemData.endDate && (Date.now() >= new Date(itemData.endDate));
-
 
   const images = itemData.image.map(img => ({ original: img, thumbnail: img }));
 
@@ -141,28 +142,32 @@ const DetailAuction = () => {
                 {itemData.bids.length === 0 ? 'Empieza a pujar' : 'Aumenta la puja'}
               </button>
             </div>
-                <div className={winning ? "winning-box" : outbid ? "outbid-box" : null}>
-      {
-        (winning && !auctionEnded) && <div className="status-box status-box--winning">Estás ganando</div>
-      }
-      {
-        (winning && auctionEnded) && <div className="status-box status-box--winning">¡Has ganado!</div>
-      }
-      {outbid && <div className="status-box status-box--outbid">Te han superado la puja</div>}
-      {
-        (auctionEnded && winning) && (
-          <div>
-            <p>Puedes realizar el pago a través de tu perfil.</p>
+            {
+              winning ? (
+                <div className="status-box status-box--winning">Estás ganando</div>
+              ) : outbid ? (
+                <div className="status-box status-box--outbid">Te han superado la puja</div>
+              ) : null
+            }
+
+          </>
+        ) : (
+          <>
+          <div className="info-box">
+          <p>Subasta finalizada - Precio Final: {itemData.currentPrice}€</p>
+          </div>
+          {
+              winning ? (
+                <div>
+                  <div className="status-box status-box--winning">¡Has ganando!</div>
+                  <p>Puedes realizar el pago a través de tu perfil.</p>
             <button className="go-to-profile-button" onClick={handleGoToProfile}>
               Ir al perfil
             </button>
-          </div>
-        )
-      }
-    </div>
+                </div>
+              ) : null
+            }
           </>
-        ) : (
-          <p>Subasta finalizada - Precio Final: {itemData.currentPrice}€</p>
         )}
         {
           currentUser ? (
