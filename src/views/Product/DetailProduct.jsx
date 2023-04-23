@@ -97,7 +97,7 @@ const DetailProduct = () => {
           <p><strong>Vendido por {itemData.price} €</strong></p></div>
         ) : (
           <div className="bid-container">
-            <button className="bid-button" onClick={handleProductPurchase}>Compralo Ya {itemData.price} €</button>
+            <button className="bid-button" onClick={handleProductPurchase}>¡Cómpralo ya! - {itemData.price} €</button>
           </div>
         )}
         {currentUser ? (
