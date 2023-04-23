@@ -40,6 +40,7 @@ html, body {
   text-decoration: none;
   margin-top: 20px;
   transition: background-color 0.3s; 
+  font-weight: bold;
 }
 
 .hero h1, .signup h2 {
@@ -49,7 +50,7 @@ html, body {
 
 .hero p, .signup p {
   font-weight: bold;
-  text-shadow: 4px 4px 8px #420842
+  text-shadow: 2px 2px 4px #420842
 }
 
 .products {
@@ -62,7 +63,7 @@ html, body {
 
 .gallery-container {
   width: 45%;
-  max-height: 200px;
+  max-height: 240px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,7 +71,7 @@ html, body {
 }
 
 .gallery-container img {
-  max-height: 200px; 
+  max-height: 240px; 
   object-fit: contain; 
 }
 
@@ -85,14 +86,14 @@ html, body {
   width: 100%;
   height: 400px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: #420842;
+  color: white;
 }
 
 .signup-content {
-  text-align: center;
-  max-width: 80%;
+  text-align: left;
+  max-width: 60%;
+  padding-left: 50px;
 }
 
 .hero-btn:hover,
@@ -100,3 +101,9 @@ html, body {
   background-color: #8a3490; 
   cursor: pointer; 
 }
+
+
+
+
+
+

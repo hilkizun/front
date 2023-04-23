@@ -50,7 +50,9 @@ const Home = () => {
 
       <section className="signup">
         <div className="signup-content">
-          <h2>Regístrate y comienza a vender</h2>
+          <h2>¡Encuentra lo que buscas en nuestra tienda online y vende tus productos de forma sencilla!</h2>
+          <p>Desde hermosos amigurumis hasta gorros y calcetines de moda. Además, puedes vender tus productos de forma sencilla, ya sea en venta directa o mediante subasta.</p> 
+          <p>¡Únete a nuestra comunidad y comienza a disfrutar de la experiencia de comprar y vender desde tu casa!</p>
           <Link to="/signup" className="signup-btn">
             Únete ahora
           </Link>
