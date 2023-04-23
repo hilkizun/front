@@ -13,10 +13,10 @@ import AllProducts from "./views/Product/AllProducts"
 import AddressPurchaseForm from "./views/Purchase/AddressPurchaseForm"
 import ThankYou from './views/Purchase/ThankYou';
 
-const location = useLocation();
-const containerClass = location.pathname === "/" ? "container" : "container my-3";
 
 function App() {
+  const location = useLocation();
+  const containerClass = location.pathname === "/" ? "container" : "container my-3";
   return (
     <div className="App">
       <Navbar />
