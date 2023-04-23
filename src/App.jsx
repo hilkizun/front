@@ -16,7 +16,7 @@ import ThankYou from './views/Purchase/ThankYou';
 
 function App() {
   const location = useLocation();
-  const containerClass = location.pathname === "/" ? "container" : "container my-3";
+  const containerClass = location.pathname === "/" ? "" : "container my-3";
   return (
     <div className="App">
       <Navbar />
