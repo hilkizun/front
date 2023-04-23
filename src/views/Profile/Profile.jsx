@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import { getLikedItems, getUserProducts, getUserAuctions, getWinningProducts, getUserPurchases } from '../../services/ProductService';
 import Card from '../../components/Card/Card';
-import '..Product/AllProducts.css';
+import '../Product/AllProducts.css';
 
 const categoryEnum = [
   'amigurumis',
