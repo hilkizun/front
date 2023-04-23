@@ -37,6 +37,8 @@ const Profile = () => {
   const [purchaseProducts, setPurchaseProducts] = useState([]);
   const [filterCategory, setFilterCategory] = useState(null);
   const [filterType, setFilterType] = useState('all');
+  const [showSoldItems, setShowSoldItems] = useState(false);
+
 
   useEffect(() => {
     const fetchLikedItems = async () => {
@@ -84,6 +86,11 @@ const Profile = () => {
     setFilterType((prevType) => (prevType === type ? 'all' : type));
   };
 
+  const handleHideSoldItems = () => {
+    setShowSoldItems(!showSoldItems);
+  };
+  
+
   const applyFilters = (items) => {
     return items
       .filter((item) => !filterCategory || item.category === filterCategory)
@@ -92,8 +99,16 @@ const Profile = () => {
         if (filterType === 'product') return !item.endDate;
         if (filterType === 'auction') return !!item.endDate;
         return true;
+      })
+      .filter((item) => {
+        if (showSoldItems) {
+          return item.boughtBy || (item.isProductGenerated && item.isProductGenerated === true);
+        } else {
+          return !item.boughtBy && (!item.isProductGenerated || item.isProductGenerated === false);
+        }
       });
   };
+  
 
   const filteredWonProducts = applyFilters(wonProducts);
   const filteredLikedItems = applyFilters(likedItems);
@@ -122,6 +137,12 @@ const Profile = () => {
           >
             Subastas
           </button>
+          <button
+    onClick={handleHideSoldItems}
+    className={`type-button ${showSoldItems ? 'selected' : ''}`}
+  >
+    {showSoldItems ? 'Mostrar productos en venta' : 'Mostrar vendidos'}
+  </button>
         </div>
         <div className="filter-category">
           {categoryEnum.map((category) => (
