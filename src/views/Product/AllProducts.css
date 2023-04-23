@@ -4,6 +4,11 @@
   gap: 20px;
 }
 
+.filters h1 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
 .filters {
   display: flex;
   flex-direction: column;
@@ -49,4 +54,12 @@
   background-color: #929496;
   color: #fff;
   border-color: #929496;
+}
+
+@media screen and (max-width: 767px) {
+  .category-button,
+  .filter-type button {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.4rem;
+  }
 }

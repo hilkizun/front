@@ -1,11 +1,11 @@
 .card {
   display: flex;
   flex-direction: row;
-  padding: 20px;
+  padding: 16px;
   background-color: #fff;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   border: none;
-  border-radius: 10px;
+  border-radius: 16px;
   align-items: center;
   cursor: pointer;
 }
@@ -22,7 +22,7 @@
   width: 320px;
   height: 200px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 16px;
   margin-right: 20px;
 }
 
@@ -38,7 +38,7 @@
   text-decoration: none;
 }
 
-.card-title {
+.card-price {
   margin: 0;
   margin-bottom: 10px;
   font-size: 20px;
@@ -61,7 +61,7 @@
   align-items: center;
 }
 
-.card-price {
+.card-title {
   margin: 0;
   font-size: 24px;
   font-weight: 600;
@@ -95,4 +95,51 @@
   margin-right: 10px;
   font-size: 16px;
   color: #6c757d;
+}
+
+@media only screen and (max-width: 767px) {
+  .card {
+    flex-direction: column;
+    padding: 0 0 8px 0;
+    border-radius: 24;
+    align-items: flex-start;
+  }
+  
+  .card-img {
+    width: 100%;
+    max-height: 160px;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .card-info {
+    padding: 0 8px;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .card-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .card-description {
+    font-size: 14px;
+    max-height: initial;
+    margin-bottom: 5px;
+  }
+  
+  .card-price-likes {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .card-price {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .card-likes {
+    margin-top: 5px;
+  }
 }

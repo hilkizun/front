@@ -22,7 +22,7 @@ const Card = ({ item, type }) => {
       }, 1000);
       return () => clearInterval(intervalId);
     }
-  }, [item.endDate, type]);
+  }, [item.endDate]);
 
   return (
     <Link to={`${routeType}/${item._id}`} className="card-link">
@@ -30,27 +30,28 @@ const Card = ({ item, type }) => {
         <img src={item.image[0]} alt={item.name} className="card-img" />
         <div className="card-info">
           <h3 className="card-title clickable">{item.name}</h3>
-          <p className="card-description">{item.description.substring(0, 50)}</p>
+          <p className="card-description">{item.description.substring(0, 80)}...</p>
           <div className="card-price-likes">
-            <p className="card-price clickable">
-              {type === 'product'
-                ? (item.sellOut
-                    ? `Vendido por ${item.price}€`
-                    : `¡Cómpralo ya! ${item.price}€`)
-                : remainingTime
-                ? `Puja actual: ${item.currentPrice}€ - ${remainingTime.days}d ${remainingTime.hours}h ${remainingTime.minutes}m ${remainingTime.seconds}s`
-                : `Subasta finalizada - Puja final: ${item.currentPrice}€`}
-            </p>
+          <p className="card-price clickable">
+            {type === 'product'
+              ? (item.sellOut
+                  ? `Vendido por ${item.price}€`
+                  : `¡Cómpralo ya! ${item.price}€`)
+              : remainingTime
+              ? (
+                <span>
+                  Puja actual: {item.currentPrice}€<br />
+                  Pujas realizadas: {item.bids.length}<br />
+                  Faltan: {remainingTime.days}d {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s
+                </span>
+                    )
+              : `Subasta finalizada - Precio final: ${item.currentPrice}€`}
+          </p>
             <div className={`card-likes ${item.likesCount > 0 ? 'liked' : ''}`}>
               {item.likesCount > 0 ? <FaHeart /> : <FaRegHeart />}
               <span>{item.likesCount}</span>
             </div>
           </div>
-          {type === 'auction' && (
-            <p className="card-auction-end">
-              {`Finaliza: ${formattedEndDate(item.endDate)}`}
-            </p>
-          )}
         </div>
       </div>
     </Link>

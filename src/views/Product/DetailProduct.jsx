@@ -7,6 +7,7 @@ import AuthContext from '../../contexts/AuthContext';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { createProductPurchase } from '../../services/ProductPurchaseService';
 import { useNavigate } from 'react-router-dom';
+import './DetailAuction.css'
 
 const DetailProduct = () => {
   const { id } = useParams();
@@ -51,7 +52,7 @@ const DetailProduct = () => {
         setLiked(false);
         setLikesCount(likesCount - 1);
       }
-    }    
+    }
   };
 
   if (!itemData) {
@@ -61,48 +62,57 @@ const DetailProduct = () => {
   const images = itemData.image.map(img => ({ original: img, thumbnail: img }));
 
   const handleProductPurchase = async () => {
-  if (!currentUser) {
-    alert('Necesitas estar logueado para comprar. Por favor, inicia sesión.');
-    return;
-  }
-
-  const result = window.confirm(`Vas a comprar ${itemData.name} por ${itemData.price} €. Solo tienes que introducir tu dirección para completar el pedido.`);
-  if (result) {
-    try {
-      const purchaseData = {
-        productId: id,
-        userId: currentUser.id,
-      };
-
-      const productPurchase = await createProductPurchase(purchaseData);
-      navigate(`/purchase-address/${productPurchase._id}`);
-
-    } catch (error) {
-      alert('Ocurrió un error al realizar la compra. Por favor, inténtalo de nuevo.');
+    if (!currentUser) {
+      alert('Necesitas estar logueado para comprar. Por favor, inicia sesión.');
+      return;
     }
-  }
-};
+
+    const result = window.confirm(`Vas a comprar ${itemData.name} por ${itemData.price} €. Solo tienes que introducir tu dirección para completar el pedido.`);
+    if (result) {
+      try {
+        const purchaseData = {
+          productId: id,
+          userId: currentUser.id,
+        };
+
+        const productPurchase = await createProductPurchase(purchaseData);
+        navigate(`/purchase-address/${productPurchase._id}`);
+
+      } catch (error) {
+        alert('Ocurrió un error al realizar la compra. Por favor, inténtalo de nuevo.');
+      }
+    }
+  };
 
   return (
-    <div>
-      <h1>{itemData.name}</h1>
-      <p>{itemData.description}</p>
-      <ImageGallery items={images} />
-      {currentUser ? (
-        <button onClick={handleLikeClick} className={`like-button ${liked ? 'liked' : ''}`}>
-          {liked ? <FaHeart /> : <FaRegHeart />}
-          <span>{likesCount}</span>
-        </button>
-      ) : (
-        <div>
-          <FaRegHeart />
-          <span>{likesCount}</span>
-        </div>
-      )}{itemData.sellOut ? (
-        <p>Vendido por {itemData.price} €</p>
-      ) : (
-        <button onClick={handleProductPurchase}>Compralo Ya {itemData.price} €</button>
-      )}
+    <div className="detail-auction">
+      <div className="detail-auction__image">
+        <ImageGallery items={images} />
+      </div>
+      <div className="detail-auction__content">
+        <h1 className="detail-auction__title">{itemData.name}</h1>
+        <p>{itemData.description}</p>
+        {itemData.sellOut ? (
+          <p>Vendido por {itemData.price} €</p>
+        ) : (
+          <div className="bid-container">
+            <button className="bid-button" onClick={handleProductPurchase}>Compralo Ya {itemData.price} €</button>
+          </div>
+        )}
+        {currentUser ? (
+          <div className="like-container">
+            <span onClick={handleLikeClick} className={`like-button ${liked ? 'liked' : ''}`}>
+              {liked ? <FaHeart /> : <FaRegHeart />}
+              <span>{likesCount} Likes</span>
+            </span>
+          </div>
+        ) : (
+          <div>
+            <FaRegHeart />
+            <span>{likesCount} Likes</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

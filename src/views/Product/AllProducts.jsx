@@ -33,7 +33,7 @@ const AllProducts = () => {
   const [auctions, setAuctions] = useState([]);
   const [filterCategory, setFilterCategory] = useState(null);
   const [filterType, setFilterType] = useState('all');
-  const [hideSoldItems, setHideSoldItems] = useState(true);
+  const [showSoldItems, setShowSoldItems] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
@@ -60,9 +60,9 @@ const AllProducts = () => {
   };
 
   const handleHideSoldItems = () => {
-    setHideSoldItems(!hideSoldItems);
+    setShowSoldItems(!showSoldItems);
   };
-
+  
   const filteredItems = [...products, ...auctions]
     .filter((item) => !filterCategory || item.category === filterCategory)
     .filter((item) => {
@@ -71,41 +71,44 @@ const AllProducts = () => {
       if (filterType === 'auction') return !!item.endDate;
       return true;
     })
-    .filter((item) => !hideSoldItems || (
-      !item.boughtBy && 
-      (!item.isProductGenerated || item.isProductGenerated === false)
-      ))
+    .filter((item) => {
+      if (showSoldItems) {
+        return item.boughtBy || (item.isProductGenerated && item.isProductGenerated === true);
+      } else {
+        return !item.boughtBy && (!item.isProductGenerated || item.isProductGenerated === false);
+      }
+    })
     .sort(() => Math.random() - 0.5);
-
-    return (
-      <div className="all-products">
-        <div className="filters">
-          <h1>
-            {currentUser
-              ? `Hola, ${currentUser.firstName} ¿Qué es lo que buscas hoy?`
-              : '¿Qué es lo que buscas?'}
-          </h1>
-          <div className="filter-type">
-            <button
-              onClick={() => handleTypeChange('product')}
-              className={`type-button ${filterType === 'product' ? 'selected' : ''}`}
-            >
-              ¡Cómpralo ya!
-            </button>
-            <button
-              onClick={() => handleTypeChange('auction')}
-              className={`type-button ${filterType === 'auction' ? 'selected' : ''}`}
-            >
-              Subastas
-            </button>
-            <button
-              onClick={handleHideSoldItems}
-              className={`type-button ${!hideSoldItems ? 'selected' : ''}`}
-            >
-              {hideSoldItems ? 'Mostrar vendidos' : 'Ocultar vendidos'}
-            </button>
-          </div>
-          <div className="filter-category">
+  
+  return (
+    <div className="all-products">
+      <div className="filters">
+        <h1>
+          {currentUser
+            ? `Hola, ${currentUser.firstName} ¿Qué es lo que buscas hoy?`
+            : '¿Qué es lo que buscas?'}
+        </h1>
+        <div className="filter-type">
+          <button
+            onClick={() => handleTypeChange('product')}
+            className={`type-button ${filterType === 'product' ? 'selected' : ''}`}
+          >
+            ¡Cómpralo ya!
+          </button>
+          <button
+            onClick={() => handleTypeChange('auction')}
+            className={`type-button ${filterType === 'auction' ? 'selected' : ''}`}
+          >
+            Subastas
+          </button>
+          <button
+            onClick={handleHideSoldItems}
+            className={`type-button ${showSoldItems ? 'selected' : ''}`}
+          >
+            {showSoldItems ? 'Mostrar productos en venta' : 'Mostrar vendidos'}
+          </button>
+        </div>
+        <div className="filter-category">
           {categoryEnum.map((category) => (
             <button
               key={category}

@@ -8,6 +8,7 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { daysRemaining, formattedEndDate, timeRemaining } from '../../utils/dateUtils';
 import { useNavigate } from 'react-router-dom';
+import './DetailAuction.css'
 
 const DetailAuction = () => {
   const [itemData, setItemData] = useState(null);
@@ -19,6 +20,8 @@ const DetailAuction = () => {
   const [winning, setWinning] = useState(false);
   const { id } = useParams();
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
 
   const fetchData = async () => {
     const response = await getAuction(id);
@@ -94,6 +97,11 @@ const DetailAuction = () => {
   if (!itemData) {
     return <p>Cargando...</p>;
   }
+  const handleGoToProfile = () => {
+    navigate('/profile');
+  };
+    const auctionEnded = itemData.endDate && (Date.now() >= new Date(itemData.endDate));
+
 
   const images = itemData.image.map(img => ({ original: img, thumbnail: img }));
 
@@ -113,35 +121,67 @@ const DetailAuction = () => {
   };
 
   return (
-    <div>
-      <h1>{itemData.name}</h1>
-      <p>{itemData.description}</p>
-      <ImageGallery items={images} />
+    <div className="detail-auction">
+      <div className="detail-auction__image">
+        <ImageGallery items={images} />
+      </div>
+      <div className="detail-auction__content">
+        <h1 className="detail-auction__title">{itemData.name}</h1>
+        <p>{itemData.description}</p>
+        {remainingTime ? (
+          <>
+            <div className="info-box">
+              <p>Quedan: {remainingTime.days}d {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s</p>
+              <p>Finaliza: {formattedEndDate(itemData.endDate)}</p>
+              <p>Pujas totales: {itemData.bids.length}</p>
+              <p><strong>Puja actual:</strong> {itemData.currentPrice}€</p>
+            </div>
+            <div className="bid-container">
+              <button className="bid-button" onClick={handlePlaceBidClick}>
+                {itemData.bids.length === 0 ? 'Empieza a pujar' : 'Aumenta la puja'}
+              </button>
+            </div>
+                <div className={winning ? "winning-box" : outbid ? "outbid-box" : null}>
       {
-        currentUser ? (
-          <button onClick={handleLikeClick} className={`like-button ${liked ? 'liked' : ''}`}>
-            {liked ? <FaHeart /> : <FaRegHeart />}
-            <span>{likesCount}</span>
-          </button>
-        ) : (
+        (winning && !auctionEnded) && <div className="status-box status-box--winning">Estás ganando</div>
+      }
+      {
+        (winning && auctionEnded) && <div className="status-box status-box--winning">¡Has ganado!</div>
+      }
+      {outbid && <div className="status-box status-box--outbid">Te han superado la puja</div>}
+      {
+        (auctionEnded && winning) && (
           <div>
-            <FaRegHeart />
-            <span>{likesCount}</span>
+            <p>Puedes realizar el pago a través de tu perfil.</p>
+            <button className="go-to-profile-button" onClick={handleGoToProfile}>
+              Ir al perfil
+            </button>
           </div>
         )
       }
-      {remainingTime ? (
-        <>
-          <p>Quedan: {remainingTime.days}d {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s</p>
-          <p>Finaliza: {formattedEndDate(itemData.endDate)}</p>
-          <button onClick={handlePlaceBidClick}>Puja actual (${itemData.currentPrice})</button>
-          {winning && <p>Estás ganando</p>}
-          {outbid && <p>Te han superado la puja</p>}
-        </>
-      ) : (
-        <p>Subasta finalizada - Precio Final: {itemData.currentPrice}€</p>
-      )}
     </div>
+          </>
+        ) : (
+          <p>Subasta finalizada - Precio Final: {itemData.currentPrice}€</p>
+        )}
+        {
+          currentUser ? (
+            <div className="like-container">
+              <span onClick={handleLikeClick} className={`like-button ${liked ? 'liked' : ''}`}>
+                {liked ? <FaHeart /> : <FaRegHeart />}
+                <span>{likesCount} Likes</span>
+              </span>
+            </div>
+          ) : (
+            <div>
+              <FaRegHeart />
+              <span>{likesCount} Likes</span>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
   );
 };
 
