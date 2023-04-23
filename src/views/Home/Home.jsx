@@ -19,7 +19,7 @@ const Home = () => {
     <div className="home">
       <section className="hero">
         <div className="hero-content">
-          <h1>Bienvenido a <span style="font-size: 120%; color: #a642af;">dupidú</span></h1>
+          <h1>Bienvenido a dupidú</h1>
           <p>Compra y vende artículos hechos a mano en nuestra increíble tienda.</p>
           <Link to="/products" className="hero-btn">
             Descubre productos
