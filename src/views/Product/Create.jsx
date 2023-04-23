@@ -78,7 +78,7 @@ const Create = () => {
 
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <FormControl
-          text="Type"
+          text="Tipo de venta"
           htmlFor="type"
         >
           <select
@@ -88,15 +88,15 @@ const Create = () => {
             onChange={handleTypeChange}
           >
             <option value="">Select a type</option>
-            <option value="product">Product</option>
-            <option value="auction">Auction</option>
+            <option value="product">Venta directa</option>
+            <option value="auction">Subasta</option>
           </select>
         </FormControl>
 
         {productType === 'product' && (
           <>
             <FormControl
-              text="Name"
+              text="Nombre del artículo"
               htmlFor="name"
             >
               <Input
@@ -109,7 +109,7 @@ const Create = () => {
             </FormControl>
 
             <FormControl
-              text="Category"
+              text="Categoría"
               htmlFor="category"
             >
               <select
@@ -129,7 +129,7 @@ const Create = () => {
             </FormControl>
 
             <FormControl
-              text="Description"
+              text="Descripción"
               htmlFor="description"
             >
               <textarea
@@ -143,7 +143,7 @@ const Create = () => {
             </FormControl>
 
             <FormControl
-              text="Price"
+              text="Precio"
               htmlFor="price"
             >
               <Input
@@ -174,7 +174,7 @@ const Create = () => {
         {productType === 'auction' && (
           <>
             <FormControl
-              text="Name"
+              text="Nombre del artículo en subasta"
               htmlFor="name"
             >
               <Input
@@ -187,7 +187,7 @@ const Create = () => {
             </FormControl>
 
             <FormControl
-              text="Category"
+              text="Categoría"
               htmlFor="category"
             >
               <select
@@ -207,7 +207,7 @@ const Create = () => {
             </FormControl>
 
             <FormControl
-              text="Description"
+              text="Descripción"
               htmlFor="description"
             >
                 <textarea
@@ -221,7 +221,7 @@ const Create = () => {
             </FormControl>
 
             <FormControl
-              text="Initial Price"
+              text="Precio inicial"
               htmlFor="initialPrice"
             >
               <Input
