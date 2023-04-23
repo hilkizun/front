@@ -19,7 +19,7 @@ const Home = () => {
     <div className="home">
       <section className="hero">
         <div className="hero-content">
-          <h1>Bienvenido a Dupidu</h1>
+          <h1>Bienvenido a <span style="font-size: 120%; color: #a642af;">dupidú</span></h1>
           <p>Compra y vende artículos hechos a mano en nuestra increíble tienda.</p>
           <Link to="/products" className="hero-btn">
             Descubre productos
@@ -50,9 +50,8 @@ const Home = () => {
 
       <section className="signup">
         <div className="signup-content">
-          <h2>¡Encuentra lo que buscas en nuestra tienda online y vende tus productos de forma sencilla!</h2>
-          <p>Desde hermosos amigurumis hasta gorros y calcetines de moda. Además, puedes vender tus productos de forma sencilla, ya sea en venta directa o mediante subasta.</p> 
-          <p>¡Únete a nuestra comunidad y comienza a disfrutar de la experiencia de comprar y vender desde tu casa!</p>
+          <h2>¡Vende tus productos de forma sencilla!</h2>
+          <p>Únete a nuestra comunidad y consigue ingresos a través de tus productos handmade.</p>
           <Link to="/signup" className="signup-btn">
             Únete ahora
           </Link>
