@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import Navbar from "./components/Navbar/Navbar"
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
 import Home from "./views/Home/Home"
@@ -13,11 +13,14 @@ import AllProducts from "./views/Product/AllProducts"
 import AddressPurchaseForm from "./views/Purchase/AddressPurchaseForm"
 import ThankYou from './views/Purchase/ThankYou';
 
+const location = useLocation();
+const containerClass = location.pathname === "/" ? "container" : "container my-3";
+
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <div className="container my-3">
+      <div className={containerClass}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
