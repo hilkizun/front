@@ -1,4 +1,9 @@
-.home {
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .home {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,7 +18,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #6C757D;
+    color: #3e4144;
+    margin: 0;
+    padding: 0;
   }
   
   .hero-content {
@@ -23,7 +30,7 @@
   
   .hero-btn {
     display: inline-block;
-    background-color: #3498db;
+    background-color: #a642af;
     color: white;
     padding: 10px 20px;
     border-radius: 4px;
@@ -37,11 +44,15 @@
   }
   
   .gallery-container {
-    width: 100%;
+    width: 50%;
     max-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  
+  .gallery-container:first-child {
+    margin-right: 10px;
   }
   
   .signup {
@@ -53,7 +64,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: #3e4144;
   }
   
   .signup-content {
@@ -63,7 +74,7 @@
   
   .signup-btn {
     display: inline-block;
-    background-color: #3498db;
+    background-color: #a642af;
     color: white;
     padding: 10px 20px;
     border-radius: 4px;
