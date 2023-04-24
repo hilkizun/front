@@ -18,3 +18,6 @@
     text-decoration: underline;
   }
   
+  .footer-logo {
+    max-height: 40px;
+  }
