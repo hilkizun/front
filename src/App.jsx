@@ -43,9 +43,7 @@ function App() {
           <Route path="/auction/:id" element={<DetailAuction type="auction" />} />
         </Routes>
       </div>
-        <StickyFooter>
           <Footer />
-        </StickyFooter>
     </div>
   )
 }
