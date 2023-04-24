@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import { Route, Routes, useLocation } from "react-router-dom"
 import Navbar from "./components/Navbar/Navbar"
-import Footer from "./components/Footer/Footer"
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
 import Home from "./views/Home/Home"
 import Login from "./views/Login/Login"
@@ -13,6 +12,7 @@ import DetailAuction from "./views/Product/DetailAuction"
 import AllProducts from "./views/Product/AllProducts"
 import AddressPurchaseForm from "./views/Purchase/AddressPurchaseForm"
 import ThankYou from './views/Purchase/ThankYou';
+import Footer from "./components/Footer/Footer"
 
 
 function App() {
