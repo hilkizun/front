@@ -27,7 +27,7 @@ const Navbar = () => {
               <>
                 <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active' : ''}`}
                     to="/products"
                   >
                     Artículos
@@ -35,7 +35,7 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active' : ''}`}
                     to="/login"
                   >
                     Login
@@ -43,7 +43,7 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active' : ''}`}
                     to="/signup"
                   >
                     Signup
@@ -53,33 +53,33 @@ const Navbar = () => {
             )}
             {isAuthLoaded && currentUser && (
               <>
-              <li className="nav-item">
+                <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active' : ''}`}
                     to="/products"
                   >
-                    Productos
+                    Comprar
                   </NavLink>
                 </li>
-            <li className="nav-item">
-              <NavLink
-                className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
-                to="/profile"
-              >
-                Perfil
-              </NavLink>
-            </li>
-              <li className="nav-item">
-              <NavLink
-                className={({ isActive }) => `nav-link ${!isActive ? 'active': ''}`}
-                to="/create"
-              >
-                Poner en venta
-              </NavLink>
-            </li>
-              <li className="nav-item">
-                <button className="nav-link btn" onClick={handleLogout}>Logout</button>
-              </li>
+                <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active' : ''}`}
+                    to="/profile"
+                  >
+                    Perfil
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) => `nav-link ${!isActive ? 'active' : ''}`}
+                    to="/create"
+                  >
+                    Poner en venta
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link btn" onClick={handleLogout}>Logout</button>
+                </li>
               </>
             )}
           </ul>

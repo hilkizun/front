@@ -8,11 +8,16 @@ const Home = () => {
   const productImages1 = [
     'https://res.cloudinary.com/dwks54qjm/image/upload/v1682271330/dupidu/products/jknw3zs9xqw1qlqqqxya.png',
     'https://res.cloudinary.com/dwks54qjm/image/upload/v1682271931/dupidu/products/cyx7clgdjfe6z6y4fs8s.png',
+    'https://res.cloudinary.com/dwks54qjm/image/upload/v1682277040/dupidu/products/ngsujg3pinltpclk8b0r.png',
+    'https://res.cloudinary.com/dwks54qjm/image/upload/v1682277152/dupidu/products/gbg53ytpnp9xoa3rdzmo.png',
+    'https://res.cloudinary.com/dwks54qjm/image/upload/v1682276748/dupidu/products/yx2zf7xckrfqponxlqvy.png',
   ];
 
   const productImages2 = [
     'https://res.cloudinary.com/dwks54qjm/image/upload/v1682270320/dupidu/products/w7z7cwgym9cosv1dkzam.png',
     'https://res.cloudinary.com/dwks54qjm/image/upload/v1682271078/dupidu/products/jz1vn49dkeviyqr9stbs.png',
+    'https://res.cloudinary.com/dwks54qjm/image/upload/v1682271078/dupidu/products/jz1vn49dkeviyqr9stbs.png',
+    'https://res.cloudinary.com/dwks54qjm/image/upload/v1682270789/dupidu/products/ismdosiquf6pmyoze6j4.png'
   ];
 
   return (

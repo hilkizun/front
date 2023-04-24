@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { Route, Routes, useLocation } from "react-router-dom"
 import Navbar from "./components/Navbar/Navbar"
+import Footer from "./components/Footer/Footer"
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
 import Home from "./views/Home/Home"
 import Login from "./views/Login/Login"
@@ -41,7 +42,7 @@ function App() {
           <Route path="/products/:id" element={<DetailProduct type="product" />} />
           <Route path="/auction/:id" element={<DetailAuction type="auction" />} />
         </Routes>
-
+      <Footer />
       </div>
     </div>
   )
