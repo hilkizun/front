@@ -42,8 +42,10 @@ function App() {
           <Route path="/products/:id" element={<DetailProduct type="product" />} />
           <Route path="/auction/:id" element={<DetailAuction type="auction" />} />
         </Routes>
-      <Footer />
       </div>
+        <StickyFooter>
+          <Footer />
+        </StickyFooter>
     </div>
   )
 }
